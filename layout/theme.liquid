@@ -53,6 +53,11 @@
       {{ body_font_italic | font_face: font_display: 'swap' }}
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
+      @font-face {
+         font-display: swap;
+         font-family: "Acumin Variable Concept";
+         src: url('{{ "Acumin-Variable-Concept.ttf" | asset_url }}') format("opentype")
+       }
 
       {% for scheme in settings.color_schemes -%}
         {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
@@ -220,6 +225,18 @@
         --variant-pills-shadow-horizontal-offset: {{ settings.variant_pills_shadow_horizontal_offset }}px;
         --variant-pills-shadow-vertical-offset: {{ settings.variant_pills_shadow_vertical_offset }}px;
         --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
+
+
+        --font-sans: ui-sans-serif, system-ui, sans-serif;
+        --font-serif: ui-serif, Georgia, serif;
+        --font-mono: ui-monospace, SFMono-Regular, monospace;
+        --font-acumin: 'Acumin Variable Concept', sans-serif;
+
+        --text-base: 1rem;        /* 16px */
+        --text-lg: 1.125rem;      /* 18px */
+        --text-xl: 1.25rem;       /* 20px */
+
+        --leading-normal: 1.09;      /* 109% line-height */
       }
 
       *,
@@ -253,6 +270,7 @@
           font-size: 1.6rem;
         }
       }
+
     {% endstyle %}
 
     {{ 'tailwind.css' | asset_url | stylesheet_tag }}
