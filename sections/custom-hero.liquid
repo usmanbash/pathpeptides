@@ -32,12 +32,12 @@
       {% if final_mobile_image != blank %}
         {%- style -%}
           .slide--{{ block.id }} {
-            background-image: url('{{ final_mobile_image | image_url: width: x1500 }}');
+            background-image: url('{{ final_mobile_image | image_url: width: master }}');
           }
 
           @media screen and (min-width: 768px) {
             .slide--{{ block.id }} {
-              background-image: url('{{ final_desktop_image | image_url: width: x1500 }}');
+              background-image: url('{{ final_desktop_image | image_url: width: master }}');
             }
           }
         {%- endstyle -%}
