@@ -30,6 +30,32 @@
     "certificate_of_analyst_CQGtpj": {
       "type": "certificate-of-analyst",
       "blocks": {
+        "product_3YqYUb": {
+          "type": "product",
+          "settings": {
+            "product_name": "AGD9604",
+            "batch_id_1": "123",
+            "batch_link_1": "shopify://pages/certificate-of-analyst",
+            "batch_id_2": "123123",
+            "batch_link_2": "shopify://pages/custom-blend-request",
+            "batch_id_3": "",
+            "batch_link_3": "",
+            "batch_id_4": "",
+            "batch_link_4": "",
+            "batch_id_5": "",
+            "batch_link_5": "",
+            "batch_id_6": "",
+            "batch_link_6": "",
+            "batch_id_7": "",
+            "batch_link_7": "",
+            "batch_id_8": "",
+            "batch_link_8": "",
+            "batch_id_9": "",
+            "batch_link_9": "",
+            "batch_id_10": "",
+            "batch_link_10": ""
+          }
+        },
         "product_BMWhgK": {
           "type": "product",
           "settings": {
@@ -60,32 +86,6 @@
           "type": "product",
           "settings": {
             "product_name": "AOD9604",
-            "batch_id_1": "123",
-            "batch_link_1": "shopify://pages/certificate-of-analyst",
-            "batch_id_2": "123123",
-            "batch_link_2": "shopify://pages/custom-blend-request",
-            "batch_id_3": "",
-            "batch_link_3": "",
-            "batch_id_4": "",
-            "batch_link_4": "",
-            "batch_id_5": "",
-            "batch_link_5": "",
-            "batch_id_6": "",
-            "batch_link_6": "",
-            "batch_id_7": "",
-            "batch_link_7": "",
-            "batch_id_8": "",
-            "batch_link_8": "",
-            "batch_id_9": "",
-            "batch_link_9": "",
-            "batch_id_10": "",
-            "batch_link_10": ""
-          }
-        },
-        "product_3YqYUb": {
-          "type": "product",
-          "settings": {
-            "product_name": "AGD9604",
             "batch_id_1": "123",
             "batch_link_1": "shopify://pages/certificate-of-analyst",
             "batch_id_2": "123123",
@@ -188,9 +188,9 @@
         }
       },
       "block_order": [
+        "product_3YqYUb",
         "product_BMWhgK",
         "product_W7bb6K",
-        "product_3YqYUb",
         "product_EkKqmm",
         "product_4cXeRd",
         "product_raXicr"

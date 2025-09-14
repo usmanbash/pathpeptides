@@ -84,7 +84,7 @@
         "slide_YkVccJ": {
           "type": "slide",
           "settings": {
-            "desktop_image": "shopify://shop_images/heroimg.webp",
+            "desktop_image": "shopify://shop_images/5.png",
             "mobile_image": "shopify://shop_images/inner-banner-mobile.webp",
             "text_color": "#121212",
             "heading": "Unlock Your Potential with Path Peptides",
@@ -93,22 +93,22 @@
             "button_link": "#"
           }
         },
-        "slide_MdrF6U": {
+        "slide_DBURJ8": {
           "type": "slide",
           "settings": {
-            "desktop_image": "shopify://shop_images/heroimg.webp",
+            "desktop_image": "shopify://shop_images/5.png",
             "mobile_image": "shopify://shop_images/inner-banner-mobile.webp",
             "text_color": "#121212",
             "heading": "Unlock Your Potential with Path Peptides",
             "subheading": "<p>Experience the transformative power of peptides tailored for your wellness journey. Discover how Path Peptides can enhance your life today! </p>",
             "button_text": "Shop Now",
-            "button_link": ""
+            "button_link": "#"
           }
         }
       },
       "block_order": [
         "slide_YkVccJ",
-        "slide_MdrF6U"
+        "slide_DBURJ8"
       ],
       "name": "Hero Slider",
       "settings": {
@@ -247,10 +247,10 @@
         "unit_1": "mcg",
         "unit_2": "mg",
         "button_text": "Enter dosage",
-        "background_color": "#FFFFFF",
+        "background_color": "#ffffff",
         "form_background_color": "#f8f8f8",
         "button_background_color": "#008cff",
-        "unit_selected_background_color": "#D6CFC0"
+        "unit_selected_background_color": "#d6cfc0"
       }
     }
   },
