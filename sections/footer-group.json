@@ -1,1 +1,100 @@
-{"name":"t:sections.footer.name","type":"footer","sections":{"footer":{"type":"footer","settings":{"color_scheme":"scheme-1","newsletter_enable":true,"newsletter_heading":"Subscribe to our emails","enable_follow_on_shop":true,"show_social":true,"enable_country_selector":true,"enable_language_selector":true,"payment_enable":true,"show_policy":true,"margin_top":0,"padding_top":36,"padding_bottom":36}}},"order":["footer"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "custom_footer_pEPkPC": {
+      "type": "custom-footer",
+      "blocks": {
+        "logo_disclaimer_qYbcmW": {
+          "type": "logo_disclaimer",
+          "settings": {
+            "disclaimer": "<p>All products on this site are for Physician use only. The statements made within this website have not been evaluated by the US Food and Drug Administration. The statements and the products of this company are not intended to diagnose, treat, cure or prevent any disease. Path Peptides is not a compounding pharmacy or chemical compounding facility as defined under 503A of the Federal Food, Drug, and Cosmetic act. Path Peptides is not an outsourcing facility as defined under 503B of the Federal Food, Drug, and Cosmetic act.</p>"
+          }
+        },
+        "newsletter_Egr9Cz": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Subscribe to Newsletter",
+            "placeholder": "Your email",
+            "button_label": "Subscribe"
+          }
+        },
+        "link_list_kzdrTC": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Company",
+            "menu": "customer-account-main-menu"
+          }
+        },
+        "link_list_93XtYh": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Resources",
+            "menu": ""
+          }
+        },
+        "link_list_ApHkF3": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Legal",
+            "menu": ""
+          }
+        },
+        "contact_b4kyFf": {
+          "type": "contact",
+          "settings": {
+            "heading": "Contact",
+            "phone": "+1 (844) 496-2712",
+            "email": "info@pathpeptides.com",
+            "facebook_url": "",
+            "twitter_url": "",
+            "linkedin_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_disclaimer_qYbcmW",
+        "newsletter_Egr9Cz",
+        "link_list_kzdrTC",
+        "link_list_93XtYh",
+        "link_list_ApHkF3",
+        "contact_b4kyFf"
+      ],
+      "name": "Custom Footer",
+      "settings": {
+        "copyright_text": "© Wdktoolkit 2024 All right reserved."
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "custom_footer_pEPkPC",
+    "footer"
+  ]
+}

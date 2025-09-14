@@ -1,0 +1,52 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "innerpage_banner_WpEx3a": {
+      "type": "innerpage-banner",
+      "name": "Innerpage Banner",
+      "settings": {
+        "desktop_image": "shopify://shop_images/inner-banner.webp",
+        "mobile_image": "shopify://shop_images/inner-banner-mobile.webp",
+        "heading": "Build Your Personalized Peptide Blend",
+        "subheading": "Tailored formulations designed to match your unique health goals, lifestyle, and wellness journey."
+      }
+    },
+    "custom_blend_request_cFDjkw": {
+      "type": "custom-blend-request",
+      "name": "Custom Blend Request",
+      "settings": {
+        "title": "Custom Blend Request",
+        "image": "shopify://shop_images/suggest-img.webp",
+        "company_name_label": "Company Name",
+        "company_name_placeholder": "Enter Your Company name",
+        "message_label": "Please let us know what blend you are interested in?",
+        "message_placeholder": "Enter your message",
+        "disclaimer_title": "Disclaimer:",
+        "disclaimer_text": "<p>Please note that not all peptide blends may be feasible due to scientific, safety, or regulatory considerations. While we make every effort to accommodate custom requests, certain formulations may not be possible to produce or may require modification. We strongly advise all customers to conduct their own independent research and consult qualified medical or scientific professionals prior to requesting or using any custom blend. By submitting a request, you acknowledge that formulation availability is subject to these limitations and that we reserve the right to decline or adjust requests as necessary in order to ensure compliance, safety, and product integrity.</p>",
+        "agree_label": "I agree",
+        "submit_button_label": "Submit"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "innerpage_banner_WpEx3a",
+    "custom_blend_request_cFDjkw"
+  ]
+}

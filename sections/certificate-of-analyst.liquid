@@ -1,0 +1,247 @@
+<section class="px-0 py-12 sm:py-0">
+  <div class="px-0 md:px-[82px] md:py-[120px]  flex flex-col gap-0 justify-center items-center relative max-w-[1440px] container">
+    <div class="rounded-3xl flex gap-5 items-start self-stretch relative w-full bg-white">
+      <div class="rounded-[14px] p-[20px] py-[40px] md:p-[54px] flex flex-col gap-6 items-start relative w-[1276px] bg-[#f8f8f8]">
+        <div class="flex flex-col gap-5 items-start self-stretch relative w-full">
+          <div class="flex justify-between items-start self-stretch relative w-full">
+            <div class="flex flex-col gap-5 justify-end items-start flex-1 relative w-full">
+              <div class="flex gap-5 items-end self-stretch relative w-full">
+                <div class="flex flex-col gap-2.5 items-start flex-1 relative w-full">
+                  <p class="text-base leading-[18px] text-[#0c0c0c]">
+                    <span class="text-[#0c0c0c] text-base font-medium">{{ section.settings.search_label }}</span>
+                  </p>
+                  <div class="flex justify-between items-center self-stretch relative w-full">
+                    <div class="rounded-[50px] pl-4 pr-0.5 py-[11px] flex justify-between items-center flex-1 relative w-full h-11 bg-white">
+                      <input id="productSearchInput" type="text" class="absolute top-0 left-0 w-full h-full rounded-[80px] pl-4 pr-10 py-[10px] outline-none border border-transparent focus:border-[#008cff] bg-transparent text-base leading-[22px] text-[#121217]" placeholder="{{ section.settings.search_placeholder }}">
+                      <button class="rounded-[80px] flex justify-center items-center w-[40px] h-[40px] bg-[#008cff] absolute top-[2px] right-0 z-10 cursor-pointer"> 
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6.2223 12.4444C4.99164 12.4444 3.78863 12.0795 2.76538 11.3958C1.74212 10.7121 0.944598 9.74033 0.473647 8.60336C0.00269601 7.4664 -0.120526 6.21532 0.119562 5.00833C0.359651 3.80134 0.952267 2.69264 1.82247 1.82245C2.69267 0.952256 3.80138 0.359647 5.00839 0.119561C6.2154 -0.120525 7.46649 0.00269598 8.60347 0.473641C9.74044 0.944586 10.7122 1.7421 11.3959 2.76534C12.0797 3.78858 12.4446 4.99158 12.4446 6.22222C12.4427 7.87189 11.7866 9.45346 10.6201 10.62C9.45357 11.7864 7.87198 12.4426 6.2223 12.4444ZM6.2223 1.55556C5.29931 1.55556 4.39704 1.82925 3.62961 2.34203C2.86217 2.85481 2.26402 3.58365 1.91081 4.43637C1.5576 5.28909 1.46518 6.2274 1.64525 7.13264C1.82531 8.03789 2.26977 8.86941 2.92243 9.52205C3.57508 10.1747 4.40661 10.6192 5.31187 10.7992C6.21712 10.9793 7.15544 10.8869 8.00817 10.5337C8.86091 10.1805 9.58975 9.58231 10.1025 8.81489C10.6153 8.04746 10.889 7.1452 10.889 6.22222C10.8878 4.98493 10.3957 3.79866 9.5208 2.92376C8.64589 2.04886 7.45961 1.55679 6.2223 1.55556Z" fill="white"/>
+                          <path d="M13.2224 14C13.0161 14 12.8183 13.918 12.6725 13.7721L9.56134 10.661C9.41966 10.5143 9.34126 10.3178 9.34303 10.1139C9.3448 9.90998 9.4266 9.7149 9.57081 9.5707C9.71502 9.42649 9.9101 9.34469 10.114 9.34292C10.318 9.34115 10.5144 9.41955 10.6611 9.56122L13.7723 12.6723C13.881 12.7811 13.9551 12.9197 13.9851 13.0705C14.0151 13.2214 13.9997 13.3777 13.9408 13.5198C13.8819 13.6619 13.7823 13.7834 13.6544 13.8689C13.5265 13.9543 13.3762 14 13.2224 14Z" fill="white"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2.5 justify-center items-center self-stretch relative w-full h-[38px]">
+                <p class="text-base leading-[19px] text-[#303030]">
+                  <span id="searchResultCount" class="text-[#303030] text-base font-medium">
+                    Showing all {{ section.blocks.size }} results
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="boxes flex flex-wrap gap-5 items-stretch relative w-full min-h-[319px]">
+            {% for block in section.blocks %}
+              <div class="boxItem rounded-3xl p-[34px] flex flex-col gap-6 items-start relative w-full max-w-[100%] lg:max-w-[48%] h-full bg-white" data-product-name="{{ block.settings.product_name | escape | downcase }}">
+                <h4 class="text-2xl leading-[34px] text-[#0c0c0c]">
+                  <span class="text-[#0c0c0c] text-2xl font-medium">{{ block.settings.product_name }}</span>
+                </h4>
+                <div class="flex flex-col gap-4 items-start w-full">
+                  <p class="text-lg leading-[25px] text-black">
+                    <span class="text-black text-lg font-semibold">{{ section.settings.batch_id_label }}</span>
+                  </p>
+                  <div class="flex flex-wrap gap-2.5 items-center">
+                    {% for i in (1..10) %}
+                      {% assign batch_id_key = 'batch_id_' | append: i %}
+                      {% assign batch_link_key = 'batch_link_' | append: i %}
+                      {% assign batch_id = block.settings[batch_id_key] %}
+                      {% assign batch_link = block.settings[batch_link_key] %}
+
+                      {% if batch_id != blank and batch_link != blank %}
+                        <a href="{{ batch_link }}" target="_blank" class="text-[16px] text-center font-normal rounded-[50px] py-[11px] px-[12px] inline-block text-[#303030] bg-[#f8f5ef] hover:bg-gray-200">
+                          {{ batch_id }}
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('productSearchInput');
+  const resultCount = document.getElementById('searchResultCount');
+  const productBoxes = document.querySelectorAll('.boxes .boxItem');
+
+  if (searchInput) {
+    searchInput.addEventListener('keyup', (event) => {
+      const searchTerm = event.target.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      productBoxes.forEach(box => {
+        const productName = box.dataset.productName;
+        if (productName.includes(searchTerm)) {
+          box.style.display = 'flex';
+          visibleCount++;
+        } else {
+          box.style.display = 'none';
+        }
+      });
+      
+      if(searchTerm === ''){
+        resultCount.textContent = `Showing all ${productBoxes.length} results`;
+      } else {
+        resultCount.textContent = `Showing ${visibleCount} results`;
+      }
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Certificate of Analyst",
+  "settings": [
+    {
+      "type": "text",
+      "id": "search_label",
+      "label": "Search Input Label",
+      "default": "Search by Product Name:"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search Input Placeholder",
+      "default": "Product Name"
+    },
+    {
+      "type": "text",
+      "id": "batch_id_label",
+      "label": "Batch ID Label",
+      "default": "Batch ID:"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name"
+        },
+        {
+          "type": "header",
+          "content": "Batch IDs (up to 10)"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_1",
+          "label": "Batch ID 1"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_1",
+          "label": "Batch Link 1"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_2",
+          "label": "Batch ID 2"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_2",
+          "label": "Batch Link 2"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_3",
+          "label": "Batch ID 3"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_3",
+          "label": "Batch Link 3"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_4",
+          "label": "Batch ID 4"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_4",
+          "label": "Batch Link 4"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_5",
+          "label": "Batch ID 5"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_5",
+          "label": "Batch Link 5"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_6",
+          "label": "Batch ID 6"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_6",
+          "label": "Batch Link 6"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_7",
+          "label": "Batch ID 7"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_7",
+          "label": "Batch Link 7"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_8",
+          "label": "Batch ID 8"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_8",
+          "label": "Batch Link 8"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_9",
+          "label": "Batch ID 9"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_9",
+          "label": "Batch Link 9"
+        },
+        {
+          "type": "text",
+          "id": "batch_id_10",
+          "label": "Batch ID 10"
+        },
+        {
+          "type": "url",
+          "id": "batch_link_10",
+          "label": "Batch Link 10"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Certificate of Analyst"
+    }
+  ]
+}
+{% endschema %}

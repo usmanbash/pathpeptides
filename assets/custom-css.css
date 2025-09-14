@@ -1,6 +1,7 @@
 
 .nav-item {
-    font-size: 16px;
+    font-size: 16.3px;
+    font-weight: 300;
 }
 .visually-hidden{
     display: none;
@@ -9,6 +10,25 @@
     display: inline-flex!important;
 }
 
+h1 {
+    font-size: var(--text-5xl);
+    letter-spacing: 0;
+}
+h2 {
+    font-size: var(--text-3xl);
+    letter-spacing: 0;
+}
+h5 {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-normal);
+    letter-spacing: 0;
+}
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px; 
+}
+ 
 @layer components {
     /* Swiper bullets default style override */
     .swiperSliderHero .swiper-pagination-bullet {
@@ -26,33 +46,5 @@
     }
  
  
- }
-
- 
-@layer base {
-
-    body { 
-        @apply text-base leading-tight;
-        @apply font-acumin;
-    }
- 
-    h1 {
-        font-size: var(--text-5xl);
-    }
-    h2 {
-        font-size: var(--text-3xl);
-    }
-    h5 {
-        font-size: var(--text-5xl);
-        line-height: var(--leading-normal);
-    }
-    p {
- 
-    }
-    .container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 20px; 
-    }
  }
  

@@ -1,0 +1,323 @@
+
+
+{%- assign logo_block = section.blocks | where: 'type', 'logo_disclaimer' | first -%}
+{%- assign newsletter_block = section.blocks | where: 'type', 'newsletter' | first -%}
+{%- assign link_list_blocks = section.blocks | where: 'type', 'link_list' -%}
+{%- assign contact_block = section.blocks | where: 'type', 'contact' | first -%}
+
+<footer class="flex flex-col gap-[70px] items-start relative w-full">
+  <div
+    class="rounded-t-3xl rounded-b-none px-6 sm:px-10 md:px-[82px] pt-[100px] pb-[54px] flex flex-col gap-[70px] items-start w-full bg-black"
+  >
+    <!-- Top Section -->
+    <div class="flex flex-col lg:flex-row gap-10 lg:gap-5 items-start w-full max-w-screen-xl mx-auto">
+      <!-- Logo + Disclaimer -->
+      {%- if logo_block -%}
+        <div class="flex flex-col justify-between items-start w-full lg:w-[304px] h-auto lg:h-[390px]">
+          {%- if logo_block.settings.logo != blank -%}
+            <img
+              src="{{ logo_block.settings.logo | image_url: width: 130 }}"
+              alt="{{ logo_block.settings.logo.alt | default: shop.name }}"
+              class="w-[130px]"
+            >
+          {%- else -%}
+            <img
+              src="https://cdn.shopify.com/s/files/1/0959/4722/7449/files/footer-logo.svg?v=1757789177"
+              alt="-"
+              class="w-[130px]"
+            >
+          {%- endif -%}
+          <small class="text-sm leading-[21px] text-[#b8af9f] font-normal mt-6 lg:mt-24 pr-[57px]">
+            {{ logo_block.settings.disclaimer }}
+          </small>
+        </div>
+      {%- endif -%}
+
+      <!-- Newsletter + Links -->
+      <div class="flex flex-col gap-[50px] items-start flex-1 w-full">
+        <!-- Newsletter -->
+        {%- if newsletter_block -%}
+          <div class="flex flex-col gap-2.5 w-full">
+            <h3 class="text-[26px] leading-9 text-white font-bold">{{ newsletter_block.settings.heading }}</h3>
+            <div
+              class="overflow-hidden border-b border-[rgba(255,255,255,0.3)] py-4 flex flex-col sm:flex-row gap-3 sm:gap-2.5 items-center w-full"
+            >
+              <input
+                class="flex-1 w-full sm:w-auto text-[#B8AF9F] placeholder-[#B8AF9F] text-[18px] bg-transparent outline-none focus:outline-none"
+                placeholder="{{ newsletter_block.settings.placeholder }}"
+                aria-label="Email Input and Button Container"
+              >
+              <input
+                type="submit"
+                value="{{ newsletter_block.settings.button_label }}"
+                class="bg-[#008cff] text-base uppercase hover:bg-blue-600 text-white h-13 py-4 px-6 rounded-[50px] cursor-pointer w-full sm:w-auto text-center"
+              >
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- Link Sections -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 w-full">
+          {%- for block in link_list_blocks -%}
+            <div class="flex flex-col gap-5">
+              <p class="text-[18px] leading-7 uppercase text-white font-bold">{{ block.settings.heading }}</p>
+              <div class="flex flex-col gap-3">
+                {%- for link in linklists[block.settings.menu].links -%}
+                  <a href="{{ link.url }}" class="text-[18px] leading-[27px] text-[#b8af9f]">{{ link.title }}</a>
+                {%- else -%}
+                  <a href="#" class="text-[18px] leading-[27px] text-[#b8af9f]">Shop All Products</a>
+                  <a href="#" class="text-[18px] leading-[27px] text-[#b8af9f]">About Us</a>
+                  <a href="#" class="text-[18px] leading-[27px] text-[#b8af9f]">Support Center</a>
+                  <a href="#" class="text-[18px] leading-[27px] text-[#b8af9f]">Contact Us</a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+
+          {%- if contact_block -%}
+            <!-- Contact -->
+            <div class="flex flex-col gap-5">
+              <p class="text-[18px] leading-7 uppercase text-white font-bold">{{ contact_block.settings.heading }}</p>
+              <div class="flex flex-col gap-3">
+                <div class="flex gap-3 items-center">
+                  <img
+                    src="https://cdn.shopify.com/s/files/1/0959/4722/7449/files/phone-icon.svg?v=1757789177"
+                    alt="-"
+                  >
+                  <a href="tel:{{ contact_block.settings.phone }}" class="text-[18px] leading-[27px] text-[#b8af9f]">
+                    {{- contact_block.settings.phone -}}
+                  </a>
+                </div>
+                <div class="flex gap-3 items-center">
+                  <img
+                    src="https://cdn.shopify.com/s/files/1/0959/4722/7449/files/email-icon.svg?v=1757789177"
+                    alt="-"
+                  >
+                  <a href="mailto:{{ contact_block.settings.email }}" class="text-[18px] leading-[27px] text-[#b8af9f]">
+                    {{- contact_block.settings.email -}}
+                  </a>
+                </div>
+              </div>
+              <div class="flex gap-[15px] mt-3">
+                {%- if contact_block.settings.facebook_url != blank -%}
+                  <a href="{{ contact_block.settings.facebook_url }}">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect x="0.5" y="0.5" width="23" height="23" rx="11.5" stroke="white"/>
+                      <path
+                        d="M14.6997 12.7329L15.0285 10.6104H13.0029V9.23079C13.0029 8.65043 13.2857 8.08333 14.19 8.08333H15.1239V6.2759C14.58 6.1878 14.0305 6.14014 13.4797 6.1333C11.8125 6.1333 10.7241 7.15143 10.7241 8.99202V10.6104H8.8761V12.7329H10.7241V17.8666H13.0029V12.7329H14.6997Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </a>
+                {%- endif -%}
+
+                {%- if contact_block.settings.twitter_url != blank -%}
+                  <!-- icon -->
+                  <a href="{{ contact_block.settings.twitter_url }}">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect x="0.5" y="0.5" width="23" height="23" rx="11.5" stroke="white"/>
+                      <g clip-path="url(#clip0_22_72)">
+                        <path
+                          d="M12.9787 11.213L16.8052 6.85718H15.8988L12.5748 10.6385L9.92198 6.85718H6.86145L10.874 12.5757L6.86145 17.1429H7.76789L11.2758 13.1488L14.078 17.1429H17.1386M8.09505 7.52656H9.4876L15.8981 16.5064H14.5052"
+                          fill="white"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_22_72">
+                          <rect width="10.2771" height="10.2857" fill="white" transform="translate(6.86145 6.85718)"/>
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </a>
+                {%- endif -%}
+                <!-- icon -->
+                {%- if contact_block.settings.linkedin_url != blank -%}
+                  <a href="{{ contact_block.settings.linkedin_url }}">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect x="0.5" y="0.5" width="23" height="23" rx="11.5" stroke="white"/>
+                      <path
+                        d="M9.21067 16.8876V10.292H7.02034V16.8876H9.21067ZM8.11596 9.39164C8.87961 9.39164 9.35504 8.88517 9.35504 8.25224C9.34075 7.60488 8.87961 7.11255 8.13048 7.11255C7.38084 7.11255 6.89124 7.60488 6.89124 8.25218C6.89124 8.88512 7.36649 9.39158 8.10161 9.39158L8.11596 9.39164ZM10.423 16.8876H12.6132V13.2047C12.6132 13.0078 12.6275 12.8105 12.6854 12.6699C12.8436 12.2759 13.204 11.868 13.8092 11.868C14.6016 11.868 14.9187 12.4728 14.9187 13.3595V16.8876H17.1088V13.1059C17.1088 11.0801 16.0284 10.1374 14.5874 10.1374C13.406 10.1374 12.8871 10.7983 12.5988 11.2484H12.6134V10.2922H10.4232C10.4517 10.911 10.423 16.8876 10.423 16.8876Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </a>
+                {%- endif -%}
+                <!-- icon -->
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    <!-- Bottom -->
+    <div class="border-t border-[rgba(255,255,255,0.3)] py-5 w-full">
+      <p class="text-lg text-center leading-[27px] text-[#b8af9f]">{{ section.settings.copyright_text }}</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+  {
+    "name": "Custom Footer",
+    "tag": "footer",
+    "class": "shopify-section-footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Copyright"
+      }, {
+        "type": "text",
+        "id": "copyright_text",
+        "label": "Copyright text",
+        "default": "© Wdktoolkit 2024 All right reserved."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "logo_disclaimer",
+        "name": "Logo & Disclaimer",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo"
+          }, {
+            "type": "richtext",
+            "id": "disclaimer",
+            "label": "Disclaimer text",
+            "default": "<p>All products on this site are for Physician use only. The statements made within this website have not been evaluated by the US Food and Drug Administration. The statements and the products of this company are not intended to diagnose, treat, cure or prevent any disease. Path Peptides is not a compounding pharmacy or chemical compounding facility as defined under 503A of the Federal Food, Drug, and Cosmetic act. Path Peptides is not an outsourcing facility as defined under 503B of the Federal Food, Drug, and Cosmetic act.</p>"
+          }
+        ]
+      },
+      {
+        "type": "newsletter",
+        "name": "Newsletter",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Subscribe to Newsletter"
+          }, {
+            "type": "text",
+            "id": "placeholder",
+            "label": "Input placeholder",
+            "default": "Your email"
+          }, {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label",
+            "default": "Subscribe"
+          }
+        ]
+      },
+      {
+        "type": "link_list",
+        "name": "Link List",
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Company"
+          }, {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Menu",
+            "info": "This menu will be displayed in the footer."
+          }
+        ]
+      }, {
+        "type": "contact",
+        "name": "Contact",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Contact"
+          },
+          {
+            "type": "text",
+            "id": "phone",
+            "label": "Phone number",
+            "default": "+1 (844) 496-2712"
+          },
+          {
+            "type": "text",
+            "id": "email",
+            "label": "Email",
+            "default": "info@pathpeptides.com"
+          },
+          {
+            "type": "url",
+            "id": "facebook_url",
+            "label": "Facebook URL"
+          }, {
+            "type": "url",
+            "id": "twitter_url",
+            "label": "Twitter/X URL"
+          }, {
+            "type": "url",
+            "id": "linkedin_url",
+            "label": "LinkedIn URL"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Footer",
+        "blocks": [
+          {
+            "type": "logo_disclaimer"
+          },
+          {
+            "type": "newsletter"
+          },
+          {
+            "type": "link_list",
+            "settings": {
+              "heading": "Company"
+            }
+          },
+          {
+            "type": "link_list",
+            "settings": {
+              "heading": "Resources"
+            }
+          },
+          {
+            "type": "link_list",
+            "settings": {
+              "heading": "Legal"
+            }
+          }, {
+            "type": "contact"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

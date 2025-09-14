@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="build/style.css">
-    <title>Path Peptides</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- swiper css -->
-  </head>
-  <body>
+
+ 
+  
     <header class="px-4 pt-5 sm:px-0">
       <!-- Navbar -->
       <nav class="container header rounded-[20px] px-6 sm:px-16 flex flex-col gap-0 justify-center items-center relative w-full  max-w-[1400px] h-[72px] bg-black z-10 mb-6">
@@ -729,8 +719,109 @@
         </div>
       </div>
     </footer>
-    <!-- SwiperJS Script -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="assets/js/script.js"></script>
-  </body>
-</html>
+  
+    <section class="px-4  sm:px-0">
+      <div class="container relative w-full max-w-[1400px] flex items-center rounded-3xl p-8 md:p-12 lg:p-16 min-h-[630px] sm:min-h-[300px] bg-[url(./assets/img/inner-banner-mobile.webp)] md:bg-[url(./assets/img/inner-banner.webp)] bg-cover bg-no-repeat bg-[unset] sm:bg-center">
+      
+              <div class="flex justify-end sm:justify-center max-w-[100%] sm:max-w-[530px] flex-col gap-4 sm:gap-6 items-center lg:items-start self-stretch relative w-full bg-transparent">
+                <!-- Heading -->
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-[48px] leading-tight lg:leading-[50px] text-[#0c0c0c] text-left">
+                  <span class="text-[#0c0c0c] font-normal"> Build Your Personalized Peptide Blend </span>
+                </h1>
+                <!-- Paragraph -->
+                <p class="text-base sm:text-lg leading-relaxed text-[#303030] max-w-xl mx-auto lg:mx-0 text-left ">
+                  <span class="text-[#303030] font-normal"> Tailored formulations designed to match your unique health goals, lifestyle, and wellness journey. </span>
+                </p>
+              </div>  
+      </div>
+    </section>
+  <section class="px-0 py-12 sm:py-0">
+    <div class="px-0 sm:px-[82px] sm:py-[120px] flex flex-col gap-0 justify-center items-center relative max-w-[1440px] relative container">
+      <div
+        class="rounded-3xl flex gap-5 items-start self-stretch relative w-full  bg-white">
+        <div
+          class="rounded-[14px] py-[54px] px-[20px] sm:p-[54px] flex flex-col lg:flex-row items-center gap-[88px] sm:gap-[20px] md:gap-[20px] lg:gap-[88px] items-start flex-1 relative w-full  bg-[#f8f8f8]">
+          <div class="flex flex-col gap-6 items-start relative w-[354px]">
+            <h1 class="text-4xl leading-[43px] text-[#0c0c0c]">
+              <span class="text-[#0c0c0c] text-4xl font-normal"
+                >Custom Blend Request</span
+              >
+            </h1>
+            <div
+              class="w-[354px] h-[512px]">
+              
+              <img
+                src="assets/img/suggest-img.webp"
+                class="max-w-[100%]" />
+            </div>
+          </div>
+          <div class="flex flex-col gap-[34px] items-start flex-1 relative w-full">
+            <div
+              class="flex flex-col gap-2 items-start self-stretch relative w-full">
+              <label class="text-base leading-[22px]" for="company-name">
+                <span class="text-[#0c0c0c] text-base font-normal">Company Name </span><span class="text-[#008cff] text-base font-normal">*</span>
+              </label> 
+                <input id="company-name" class="w-full text-[16px]  rounded-[50px] h-13 bg-white  px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300" placeholder="Enter Your Company name" aria-label="company-name">
+            </div>
+
+            <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
+              <label class="text-base leading-[22px]" for="your-msg">
+                <span class="text-[#0c0c0c] text-base font-normal">Please let us know what blend you are interested in? </span>
+              </label> 
+                <textarea id="your-msg" class="w-full text-[16px]  rounded-[20px] px-6 py-3 flex flex-col gap-[-120px] items-center self-stretch relative w-full h-20 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 h-20" placeholder="Enter your message" aria-label="your-msg"></textarea>
+            </div>
+    
+            <div
+              class="flex flex-col gap-2 items-start self-stretch relative w-full">
+              
+                <h3 class="text-[#4d4d4d] text-base font-bold">Disclaimer:</h3>
+                <p class="text-[#4d4d4d] text-base font-normal">
+                  Please note that not all peptide blends may be feasible due to
+                  scientific, safety, or regulatory considerations. While we make
+                  every effort to accommodate custom requests, certain formulations
+                  may not be possible to produce or may require modification. We
+                  strongly advise all customers to conduct their own independent
+                  research and consult qualified medical or scientific professionals
+                  prior to requesting or using any custom blend. By submitting a
+                  request, you acknowledge that formulation availability is subject
+                  to these limitations and that we reserve the right to decline or
+                  adjust requests as necessary in order to ensure compliance,
+                  safety, and product integrity.</p>
+    
+
+    <!-- Circle checkbox (Tailwind 4) -->
+    <div class="flex items-center gap-2 mt-[5px]">
+      <!-- the peer (must come BEFORE the label) -->
+      <input id="agree" type="checkbox" class="peer sr-only" />
+
+      <!-- circle label: uses peer-checked:... and an arbitrary selector to target its child svg -->
+      <label for="agree"
+        class="circle inline-flex items-center justify-center w-5 h-5 rounded-full border-2 border-gray-400 cursor-pointer
+              transition-all duration-200
+              peer-checked:bg-black peer-checked:border-black peer-checked:text-white
+              peer-checked:[&>svg]:opacity-100">
+        <!-- svg uses currentColor for stroke so peer-checked:text-white makes it white -->
+        <svg class="w-5 h-5 opacity-0 transition-opacity duration-200"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </label>
+
+      <!-- text label -->
+      <label for="agree" class="cursor-pointer text-[16px] font-medium text-[#4D4D4D] select-none">I agree</label>
+    </div>
+
+    
+            </div>
+            <button
+              class="rounded-[50px] uppercase px-6 py-3 flex gap-2 justify-center items-center self-stretch relative w-full h-13 bg-[#008cff]">
+            
+                <span class="text-white text-base font-[700]">Submit</span>
+          
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

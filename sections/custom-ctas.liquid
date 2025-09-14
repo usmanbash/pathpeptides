@@ -1,0 +1,197 @@
+<div class="px-4 sm:px-0">
+  <!-- Product Slider -->
+  <div class="overflow-hidden rounded-3xl pl-0 pr-0 pt-[91px] pb-[120px] flex flex-col gap-20 items-center relative w-full max-w-[1400px] bg-[#303030] container">
+    <div class="flex flex-col gap-20 items-start relative w-full max-w-[1280px] px-5 md:px-6 lg:px-0">
+      <!-- Header Row -->
+      <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 w-full">
+        <div class="flex flex-col gap-[34px] items-start flex-1 max-w-full lg:max-w-[768px]">
+          <div class="flex items-center">
+            <p class="text-base leading-6 tracking-[0.2em] uppercase text-[#efeade] font-bold">{{ section.settings.eyebrow_text }}</p>
+          </div>
+          <div class="flex flex-col gap-[5px] items-start w-full">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl leading-tight md:leading-[58px] text-white font-normal">{{ section.settings.heading }}</h1>
+            <p class="text-base sm:text-lg leading-relaxed text-[#b8af9f] font-normal">{{ section.settings.subheading }}</p>
+          </div>
+        </div>
+        <!-- Button -->
+        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+          <a href="{{ section.settings.button_link }}" class="rounded-[50px] flex flex-col items-start bg-[#008cff]">
+            <button class="rounded-[50px] border border-[#008cff] px-6 py-3 flex justify-center items-center h-13">
+              <p class="text-base leading-6 uppercase text-[#f8f5ef] font-bold">{{ section.settings.button_label }}</p>
+            </button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    
+      <!-- Product Cards -->
+     <div class="swiper-container-wrapper pl-[20px] md:pl-0 md:pr-[0px] max-w-[1280px] ">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full swiper mySwiperProducts overflow-visible  ">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <!-- Card {{ forloop.index }} -->
+            <div class="swiper-slide">
+              <div class="flex flex-col gap-6 items-start ">
+                <div class="relative group rounded-3xl overflow-hidden">
+                  {% if block.settings.image != blank %}
+                    <img src="{{ block.settings.image | image_url: width: 600 }}" class="w-full md:h-[508px] object-cover" />
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'w-full md:h-[508px] object-cover' }}
+                  {% endif %}
+                  <!-- Overlay -->
+                  <div class="absolute inset-0 transition-colors duration-300 group-hover:bg-black/30"></div>
+
+                  {% if block.settings.icon != blank %}
+                    <div class="absolute opacity-0 transition-opacity duration-300 group-hover:opacity-100 top-[34px] left-[34px]">
+                      <img src="{{ block.settings.icon | image_url: width: 50 }}" alt="">
+                    </div>
+                  {% endif %}
+                  <!-- Content -->
+                  <div class="absolute bottom-1.5 left-1.5 right-1.5 px-6 pb-6 pt-[38px] rounded-3xl text-white opacity-0 translate-y-4 transition-translate duration-300 group-hover:opacity-100 group-hover:translate-y-0 bg-[linear-gradient(180deg,rgba(48,48,48,0)_0%,rgba(255,255,255,0.03)_100%)] backdrop-blur-[4px] border border-[rgba(251,251,251,0.1)]">
+                    <p class="text-lg leading-tight">
+                      {{ block.settings.description }}
+                    </p>
+                    <div class="group/button flex justify-between items-center pt-6">
+                      <a href="{{ block.settings.link }}" class="uppercase font-semibold">Read more</a>
+                      <svg class="rotate-[-12deg] group-hover/button:rotate-0 transition-transform duration-200 ease" width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.10051 10.0001L20.8995 10.0001M20.8995 10.0001L12.4142 1.5148M20.8995 10.0001L12.4142 18.4854" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 class="text-[22px] md:text-[26px] leading-[31px] text-[#b8af9f] font-medium">{{ block.settings.title }}</h3>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <!-- grid -->
+      </div>
+    </div>
+    <!-- swiper-container-wrapper -->
+  </div>
+  <!-- End Product Slider -->
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+  // Products Swiper
+  const swiperProducts = new Swiper(".mySwiperProducts", {
+    "direction": "horizontal",
+    "effect": "slide",
+    "loop": false,
+    "speed": 500,
+    "spaceBetween": 20,
+    "slidesPerGroup": 1,
+    "initialSlide": 0,
+    "autoHeight": false,
+    "slideToClickedSlide": false, 
+    "grabCursor": false,
+    "navigation": {
+      "prevEl": ".swiper-button-prev",
+      "nextEl": ".swiper-button-next"
+    },
+    "freeMode": false,
+    "keyboard": false,
+    "scrollbar": false,
+    "zoom": false,
+    "hashNavigation": false,
+    "history": false,
+    "a11y": true,
+    breakpoints: {
+      320: {
+        slidesPerView: 1.2,
+      },
+      630: {
+        slidesPerView: 2.2,
+      },
+      991: {
+        slidesPerView: 3.03,
+      }
+    }
+  });
+});
+</script>
+{% schema %}
+{
+  "name": "Custom CTAs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Text",
+      "default": "Explore"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover our range of health-enhancing peptides."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Category Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Support digestion, nutrient absorption, and overall wellness with advanced peptide formulas."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Category Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom CTAs",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
