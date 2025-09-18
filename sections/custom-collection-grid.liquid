@@ -1,0 +1,585 @@
+<section class="max-w-[1280px]  mx-auto px-4 sm:px-4 pt-5  mb-5">
+    <h2 class="text-[36px] sm:text-[48px] text-[#0C0C0C] leading-[46px] sm:leading-[48px] mb-[20px] sm:mb-[40px] ">{{ section.settings.heading | default: 'Shop Premium Research Peptides' }}</h2>
+    <div class="flex flex-col items-start sm:items-center sm:flex-row justify-between py-2 sm:pl-0 pt-0 sm:pt-[10px] pb-0 sm:pb-8 mb-6 w-full border-0 sm:border-b sm:border-[#E9E9E9] ">
+        <div class="">
+            {% render 'breadcrumbs' %}
+        </div>
+        <div class="flex flex-col gap-[17px] items-start relative w-full sm:max-w-[257px] pt-2.5 sm:pt-0  mt-[10px] sm:mt-0">
+            <p class="text-base leading-[18px] text-[#0c0c0c]">
+                <span class="text-[#0c0c0c] text-base font-[400]">{{ section.settings.search_label | default: 'Search by product' }}</span>
+            </p>
+            <div class="flex justify-between items-center self-stretch relative w-full">
+                <div class="rounded-[50px] border border-[#e9e9e9] px-4 py-[11px] flex justify-between items-center relative w-full sm:w-[257px] h-10 bg-white">
+                    <input id="productGridSearchInput" type="text" class="text-sm leading-5 text-[#a8a8a8] text-sm font-normal outline-none focus:outline-none" placeholder="{{ section.settings.search_placeholder | default: 'Search' }}">
+                    <button class="absolute right-3 top-[32px] -translate-y-1/2 p-1.5 rounded-full bg-transparent ">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.2223 12.4444C4.99164 12.4444 3.78863 12.0795 2.76538 11.3958C1.74212 10.7121 0.944598 9.74033 0.473647 8.60336C0.00269601 7.4664 -0.120526 6.21532 0.119562 5.00833C0.359651 3.80134 0.952267 2.69264 1.82247 1.82245C2.69267 0.952256 3.80138 0.359647 5.00839 0.119561C6.2154 -0.120525 7.46649 0.00269598 8.60347 0.473641C9.74044 0.944586 10.7122 1.7421 11.3959 2.76534C12.0797 3.78858 12.4446 4.99158 12.4446 6.22222C12.4427 7.87189 11.7866 9.45346 10.6201 10.62C9.45357 11.7864 7.87198 12.4426 6.2223 12.4444ZM6.2223 1.55556C5.29931 1.55556 4.39704 1.82925 3.62961 2.34203C2.86217 2.85481 2.26402 3.58365 1.91081 4.43637C1.5576 5.28909 1.46518 6.2274 1.64525 7.13264C1.82531 8.03789 2.26977 8.86941 2.92243 9.52205C3.57508 10.1747 4.40661 10.6192 5.31187 10.7992C6.21712 10.9793 7.15544 10.8869 8.00817 10.5337C8.86091 10.1805 9.58975 9.58231 10.1025 8.81488C10.6153 8.04746 10.889 7.1452 10.889 6.22222C10.8878 4.98493 10.3957 3.79866 9.5208 2.92376C8.64589 2.04886 7.45961 1.55679 6.2223 1.55556Z" fill="#303030" />
+                            <path d="M13.2224 14C13.0161 14 12.8183 13.918 12.6725 13.7721L9.56134 10.661C9.41966 10.5143 9.34126 10.3178 9.34303 10.1139C9.3448 9.90998 9.4266 9.7149 9.57081 9.5707C9.71502 9.42649 9.9101 9.34469 10.114 9.34292C10.318 9.34115 10.5144 9.41954 10.6611 9.56122L13.7723 12.6723C13.881 12.7811 13.9551 12.9197 13.9851 13.0705C14.0151 13.2214 13.9997 13.3777 13.9408 13.5198C13.8819 13.6619 13.7823 13.7834 13.6544 13.8689C13.5265 13.9543 13.3762 14 13.2224 14Z" fill="#303030" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="flex  sm:hidden flex-col gap-[17px] items-start relative w-full sm:max-w-[257px] pt-2.5 sm:pt-0 mt-[10px] ">
+            <p class="text-base leading-[18px] text-[#0c0c0c]">
+                <span class="text-[#0c0c0c] text-base font-[400]">Product Filters:</span>
+            </p>
+            <div class="flex justify-between items-center self-stretch relative w-full">
+                <div class="relative w-full sm:w-[212px] h-11">
+                    <select class="appearance-none rounded-[50px] border border-[#e9e9e9] px-5 pr-10 w-full h-full bg-white text-[#303030] text-base font-normal focus:outline-none">
+                        <option>Sort by popularity</option>
+                        <option>Sort by latest</option>
+                        <option>Sort by price: low to high</option>
+                        <option>Sort by price: high to low</option>
+                    </select>
+                    <!-- Custom Arrow -->
+                    <svg class="pointer-events-none absolute right-5 top-[25px] -translate-y-1/2" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.34067 7.20505C6.15238 7.39727 5.84715 7.39727 5.65886 7.20505L0.743266 2.18704C0.554979 1.99482 0.554979 1.68323 0.743266 1.49102L0.970554 1.25897C1.15884 1.06675 1.46411 1.06675 1.65241 1.25897L5.99977 5.69693L10.3472 1.25897C10.5354 1.06675 10.8407 1.06675 11.029 1.25897L11.2563 1.49102C11.4446 1.68323 11.4446 1.99482 11.2563 2.18704L6.34067 7.20505Z" fill="#B8AF9F"></path>
+                    </svg>
+                </div>
+                <a href="#" class="text-sm leading-5 text-[#008cff] text-sm font-normal ml-5" onclick="openPopup()">
+                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1_2416)">
+                            <path d="M1.0625 5.99387H17.2394C17.7269 8.2131 19.7088 9.87917 22.0723 9.87917C24.4358 9.87917 26.4177 8.21317 26.9052 5.99387H32.9375C33.5243 5.99387 34 5.51814 34 4.93137C34 4.34461 33.5243 3.86887 32.9375 3.86887H26.9047C26.4162 1.65077 24.4317 -0.0163574 22.0723 -0.0163574C19.7117 -0.0163574 17.7281 1.65051 17.2398 3.86887H1.0625C0.475734 3.86887 0 4.34461 0 4.93137C0 5.51814 0.475734 5.99387 1.0625 5.99387ZM19.2496 4.93416C19.2496 4.93038 19.2497 4.92653 19.2497 4.92274C19.2544 3.37103 20.5205 2.10871 22.0723 2.10871C23.6219 2.10871 24.8881 3.3693 24.8948 4.92028L24.895 4.93589C24.8926 6.49026 23.6273 7.75424 22.0723 7.75424C20.518 7.75424 19.2531 6.49152 19.2496 4.93808L19.2496 4.93416ZM32.9375 28.0063H26.9047C26.4161 25.7882 24.4317 24.1211 22.0723 24.1211C19.7117 24.1211 17.7281 25.788 17.2398 28.0063H1.0625C0.475734 28.0063 0 28.4819 0 29.0688C0 29.6556 0.475734 30.1313 1.0625 30.1313H17.2394C17.7269 32.3505 19.7088 34.0166 22.0723 34.0166C24.4358 34.0166 26.4177 32.3505 26.9052 30.1313H32.9375C33.5243 30.1313 34 29.6556 34 29.0688C34 28.4819 33.5243 28.0063 32.9375 28.0063ZM22.0723 31.8916C20.518 31.8916 19.2531 30.6289 19.2496 29.0754L19.2496 29.0716C19.2496 29.0677 19.2497 29.0639 19.2497 29.0601C19.2544 27.5084 20.5205 26.2461 22.0723 26.2461C23.6219 26.2461 24.8881 27.5066 24.8948 29.0576L24.895 29.0732C24.8928 30.6277 23.6274 31.8916 22.0723 31.8916ZM32.9375 15.9376H16.7606C16.2731 13.7184 14.2912 12.0524 11.9277 12.0524C9.56416 12.0524 7.58233 13.7184 7.09478 15.9376H1.0625C0.475734 15.9376 0 16.4133 0 17.0001C0 17.5869 0.475734 18.0626 1.0625 18.0626H7.09531C7.58386 20.2806 9.56834 21.9478 11.9277 21.9478C14.2883 21.9478 16.2719 20.2809 16.7602 18.0626H32.9375C33.5243 18.0626 34 17.5869 34 17.0001C34 16.4133 33.5243 15.9376 32.9375 15.9376ZM14.7504 16.9973C14.7504 17.0012 14.7503 17.005 14.7503 17.0087C14.7456 18.5605 13.4795 19.8228 11.9277 19.8228C10.3781 19.8228 9.11187 18.5622 9.10516 17.0113L9.10496 16.9957C9.10729 15.4412 10.3727 14.1774 11.9277 14.1774C13.482 14.1774 14.7469 15.44 14.7504 16.9935L14.7504 16.9973Z" fill="#B8AF9F" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1_2416">
+                                <rect width="34" height="34" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <!-- mobile filter -->
+    </div>
+</section>
+<section class="max-w-[1280px] mx-auto px-4 sm:px-4 pt-5 mb-5">
+    <div class="popularity-dropdown hidden md:flex  gap-5 justify-end sm:justify-end items-center relative pb-4 sm:pb-0 ">
+        <p class="text-base leading-[19px] text-[#0c0c0c]">
+            <span class="text-[#0c0c0c] text-base font-normal">Product Filters:</span>
+        </p>
+        <div class="relative w-[212px] h-11">
+            <select class="appearance-none rounded-[50px] border border-[#e9e9e9] px-5 pr-10 w-full h-full bg-white text-[#303030] text-base font-normal focus:outline-none">
+                <option>Sort by popularity</option>
+                <option>Sort by latest</option>
+                <option>Sort by price: low to high</option>
+                <option>Sort by price: high to low</option>
+            </select>
+            <!-- Custom Arrow -->
+            <svg class="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.34067 7.20505C6.15238 7.39727 5.84715 7.39727 5.65886 7.20505L0.743266 2.18704C0.554979 1.99482 0.554979 1.68323 0.743266 1.49102L0.970554 1.25897C1.15884 1.06675 1.46411 1.06675 1.65241 1.25897L5.99977 5.69693L10.3472 1.25897C10.5354 1.06675 10.8407 1.06675 11.029 1.25897L11.2563 1.49102C11.4446 1.68323 11.4446 1.99482 11.2563 2.18704L6.34067 7.20505Z" fill="#B8AF9F" />
+            </svg>
+        </div>
+    </div>
+    <div class="filter-product-wrap  py-2 sm:pl-0 pt-0 sm:pt-[24px] pb-0 sm:pb-8 mb-6 w-full flex flex-col sm:flex-row gap-5">
+        <div id="popup" class="fixed sm:relative top-[40px] sm:top-0 hidden sm:block z-50 w-full sm:w-[300px] pr-8 sm:pr-0 flex flex-col gap-5 justify-end items-end sm:items-start">
+            <div class="closePopupBtn block sm:hidden relactive z-2">
+                <a href="#" onclick="closePopup()">
+                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1_2966)">
+                            <path d="M16.025 13L25.2092 3.81579C26.0449 2.9801 26.0449 1.62628 25.2092 0.790587C24.3736 -0.0451045 23.0197 -0.0451045 22.184 0.790587L12.9998 9.97484L3.81555 0.790587C2.97985 -0.0451045 1.62603 -0.0451045 0.790343 0.790587C-0.0453486 1.62628 -0.0453486 2.9801 0.790343 3.81579L9.97459 13L0.790343 22.1843C-0.0453486 23.02 -0.0453486 24.3738 0.790343 25.2095C1.20819 25.6273 1.75557 25.8363 2.30294 25.8363C2.85032 25.8363 3.3977 25.6273 3.81555 25.2095L12.9998 16.0252L22.184 25.2095C22.6019 25.6273 23.1493 25.8363 23.6966 25.8363C24.244 25.8363 24.7914 25.6273 25.2092 25.2095C26.0449 24.3738 26.0449 23.02 25.2092 22.1843L16.025 13Z" fill="white" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1_2966">
+                                <rect width="26" height="26" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+            <!-- close popup -->
+            <div class="overlaybg sm:hidden fixed top-0 left-0 w-full h-full bg-black opacity-50 z-0" onclick="closePopup()"></div>
+            <div class="rounded-[20px] border border-[#e9e9e9] px-[23px] py-5 flex flex-col gap-[34px] items-start self-stretch relative w-full bg-white">
+                <div class="flex flex-col gap-6 items-start relative w-full sm:w-[257px] border-b border-[#E9E9E9] pb-[34px]">
+                    <div class="flex justify-between items-center self-stretch relative w-full">
+                        <p class="text-base leading-[18px] text-[#0c0c0c]">
+                            <span class="text-[#0c0c0c] text-base font-semibold">Filter by Category</span>
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-5 items-start self-stretch relative w-full">
+                        <div class="flex gap-2.5 items-center relative">
+                            <label class="relative flex gap-2.5 items-center cursor-pointer">
+                                <input type="checkbox" class="peer hidden" />
+                                <!-- Circle -->
+                                <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                    <!-- Checkmark -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <small class="text-sm leading-[14px]">
+                                    <span class="text-[#303030] font-normal">All </span>
+                                    <span class="text-[#cfcfcf] font-normal">(500)</span>
+                                </small>
+                            </label>
+                        </div>
+                        <div class="flex gap-2.5 items-center relative">
+                            <label class="relative flex gap-2.5 items-center cursor-pointer">
+                                <input type="checkbox" class="peer hidden" />
+                                <!-- Circle -->
+                                <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                    <!-- Checkmark -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">Weight Management </span><span class="text-[#cfcfcf] text-sm font-normal">(8)</span> </small>
+                            </label>
+                        </div>
+                        <div class="flex gap-2.5 items-center relative">
+                            <label class="relative flex gap-2.5 items-center cursor-pointer">
+                                <input type="checkbox" class="peer hidden" />
+                                <!-- Circle -->
+                                <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                    <!-- Checkmark -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">Digestive Health </span><span class="text-[#cfcfcf] text-sm font-normal">(15)</span> </small>
+                            </label>
+                        </div>
+                        <div class="flex gap-2.5 items-center self-stretch relative w-full">
+                            <label class="relative flex gap-2.5 items-center cursor-pointer">
+                                <input type="checkbox" class="peer hidden" />
+                                <!-- Circle -->
+                                <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                    <!-- Checkmark -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">Cognitive Health </span><span class="text-[#cfcfcf] text-sm font-normal">(20)</span> </small>
+                            </label>
+                        </div>
+                        <div class="flex gap-2.5 items-center self-stretch relative w-full">
+                            <label class="relative flex gap-2.5 items-center cursor-pointer">
+                                <input type="checkbox" class="peer hidden" />
+                                <!-- Circle -->
+                                <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                    <!-- Checkmark -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">Anti-Aging </span><span class="text-[#cfcfcf] text-sm font-normal">(87)</span> </small>
+                            </label>
+                        </div>
+                        <div class="flex gap-2.5 items-center self-stretch relative w-full">
+                            <label class="relative flex gap-2.5 items-center cursor-pointer">
+                                <input type="checkbox" class="peer hidden" />
+                                <!-- Circle -->
+                                <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                    <!-- Checkmark -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">Hormone Optimization </span><span class="text-[#cfcfcf] text-sm font-normal">(34)</span> </small>
+                            </label>
+                        </div>
+                        <div class="flex gap-2.5 items-center self-stretch relative w-full">
+                            <label class="relative flex gap-2.5 items-center cursor-pointer">
+                                <input type="checkbox" class="peer hidden" />
+                                <!-- Circle -->
+                                <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                    <!-- Checkmark -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">Sexual Health </span><span class="text-[#cfcfcf] text-sm font-normal">(118)</span> </small>
+                            </label>
+                        </div>
+                        <div class="flex gap-2.5 items-center self-stretch relative w-full">
+                            <label class="relative flex gap-2.5 items-center cursor-pointer">
+                                <input type="checkbox" class="peer hidden" />
+                                <!-- Circle -->
+                                <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                    <!-- Checkmark -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">Custom Blends </span><span class="text-[#cfcfcf] text-sm font-normal">(26)</span> </small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-6 items-start relative w-full sm:w-[257px] border-b border-[#E9E9E9] pb-[34px]">
+                    <p class="text-base leading-[18px] text-[#0c0c0c]">
+                        <span class="text-[#0c0c0c] text-base font-bold">Price $</span>
+                    </p>
+                    <div class="flex justify-between items-center self-stretch relative w-full">
+                        <input id="minInput" type="text" class="rounded-[50px] border border-[#cfcfcf] px-[20px] text-center py-[11px] flex gap-2.5 justify-center items-center relative w-[118px] h-10 bg-white leading-[18px] text-[#303030] text-[#303030]  font-normal" value="305" />
+                        <input id="maxInput" type="text" class="rounded-[50px] border border-[#cfcfcf] px-[20px]  text-center py-[11px] flex gap-2.5 justify-center items-center relative w-[118px] h-10 bg-white leading-[18px] text-[#303030] text-[#303030] font-normal" value="19,000" />
+                    </div>
+                    <div class="w-full max-w-md mx-auto">
+                        <div class="relative w-full">
+                            <!-- Track -->
+                            <div class="absolute top-1/2 left-0 right-0 h-1 bg-[#DBDEDF] rounded -translate-y-1/2"></div>
+                            <!-- Active Track -->
+                            <div id="range-track" class="absolute top-1/2 h-1 bg-[#B8AF9F] rounded -translate-y-1/2"></div>
+                            <!-- Min Thumb -->
+                            <input type="range" id="minRange" min="0" max="2000" value="305" class="range-thumb  w-full appearance-none bg-transparent pointer-events-none absolute top-[-10px]" />
+                            <!-- Max Thumb -->
+                            <input type="range" id="maxRange" min="0" max="2000" value="1900" class="range-thumb absolute w-full appearance-none bg-transparent pointer-events-none  top-[-10px]" />
+                        </div>
+                        <!-- range slider -->
+                    </div>
+                </div>
+                <div class="flex flex-col gap-6 items-start relative w-[257px]">
+                    <div class="flex items-center relative w-full">
+                        <p class="text-base leading-[18px] text-[#0c0c0c]">
+                            <span class="text-[#0c0c0c] text-base font-bold">Stock availability</span>
+                        </p>
+                    </div>
+                    <div class="flex gap-2.5 items-center relative">
+                        <label class="relative flex gap-2.5 items-center cursor-pointer">
+                            <input type="checkbox" class="peer hidden" />
+                            <!-- Circle -->
+                            <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                <!-- Checkmark -->
+                                <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </span>
+                            <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">In Stock </span><span class="text-[#cfcfcf] text-sm font-normal">(5)</span> </small>
+                        </label>
+                    </div>
+                    <div class="flex gap-2.5 items-center relative">
+                        <label class="relative flex gap-2.5 items-center cursor-pointer">
+                            <input type="checkbox" class="peer hidden" />
+                            <!-- Circle -->
+                            <span class="w-4 h-4 rounded-full border border-[#E6E6E6] bg-[#E6E6E6] flex items-center justify-center transition
+                            peer-checked:bg-blue-500 peer-checked:[&>svg]:opacity-100">
+                                <!-- Checkmark -->
+                                <svg class="w-3 h-3 text-white opacity-0 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </span>
+                            <small class="text-sm leading-[14px]"> <span class="text-[#303030] text-sm font-normal">Out of Stock </span><span class="text-[#cfcfcf] text-sm font-normal">(15)</span> </small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- filter-wrap -->
+        <div class="product-cards">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                {% if collection != blank %}
+                  {% paginate collection.products by section.settings.products_per_page %}
+                    {% for product in collection.products %}
+                      <div class="rounded-[20px] border border-[#e9e9e9] pt-0 flex flex-col gap-0 items-start flex-1 relative w-full bg-white product-card" data-product-id="{{ product.id }}" data-product-title="{{ product.title | downcase }}">
+                          <div>
+                              <div class="border border-t-0 border-l-0 border-r-0 border-b-1 border-[#e9e9e9] w-full">
+                                  {% if product.featured_image %}
+                                    <img src="{{ product.featured_image | image_url: width: 400 }}" alt="{{ product.featured_image.alt | default: product.title }}" class="block mx-auto" width="400" height="400" loading="lazy" />
+                                  {% else %}
+                                    <img src="https://cdn.shopify.com/s/files/1/0959/4722/7449/files/listimg.webp?v=1758101771" alt="Product placeholder" class="block mx-auto" width="400" height="400" />
+                                  {% endif %}
+                              </div>
+                              <div class="p-6 flex flex-col gap-5 items-start self-stretch relative w-full">
+                                  <div class="flex flex-col gap-5 items-start self-stretch relative">
+                                      <div class="flex justify-between items-center self-stretch relative w-full">
+                                          <p class="text-lg leading-[22px] text-[#0c0c0c]">
+                                              <span class="text-[#0c0c0c] text-lg font-semibold">{{ product.title }}</span>
+                                          </p>
+                                          <small class="text-sm leading-[18px] text-[#0c0c0c]">
+                                              <span class="text-[#0c0c0c] text-sm font-normal">Purity: ≥99%</span>
+                                          </small>
+                                      </div>
+                                      <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
+                                          <p class="text-base leading-[21px] text-[#0c0c0c]">
+                                              <span class="text-[#0c0c0c] text-base font-semibold">Intended Use:</span>
+                                          </p>
+                                          <p class="text-base leading-[21px] text-[#303030]">
+                                              <span class="text-[#303030] text-base font-normal">For research purposes only Not for human or veterinary use.</span>
+                                          </p>
+                                      </div>
+                                      <div class="flex flex-row sm:flex-row gap-4 w-[60%] sm:w-full order-1 sm:order-2">
+                                          <div class="flex flex-col gap-2 w-full sm:w-auto">
+                                              <label class="text-[14px] sm:text-base text-[#303030]">Weight:</label>
+                                              <div class="relative">
+                                                  <select class="appearance-none w-full sm:w-[80px] rounded-full bg-[#f8f5ef] px-[12px] py-[12px] w-full text-gray-800 text-sm focus:outline-none cursor-pointer">
+                                                      <option>5 mg</option>
+                                                      <option>10 mg</option>
+                                                      <option>15 mg</option>
+                                                  </select>
+                                                  <!-- Chevron -->
+                                                  <svg class="pointer-events-none absolute right-3 top-[30px] -translate-y-1/2 w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                  </svg>
+                                              </div>
+                                          </div>
+                                          <div class="flex flex-col gap-2 w-full sm:w-auto">
+                                              <label class="text-[14px] sm:text-base text-[#303030]">Amount:</label>
+                                              <!-- Quantity Stepper -->
+                                              <div class="flex items-center rounded-full bg-[#f8f5ef] px-3 py-2 gap-4">
+                                                  <button class="text-gray-600 text-lg font-light focus:outline-none">−</button>
+                                                  <span class="text-gray-800 text-sm">10</span>
+                                                  <button class="text-gray-600 text-lg font-light focus:outline-none">+</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="flex justify-between items-center self-stretch relative w-full">
+                                      <span class="flex items-center gap-2">
+                                          {% if product.compare_at_price > product.price %}
+                                            <h3 class="text-[26px] leading-[34px] text-[#303030]">
+                                                <span class="text-[#303030] text-[26px] font-light">{{ product.price | money }}</span>
+                                            </h3>
+                                            <h5 class="text-xl leading-[26px] line-through text-[#303030]/40">
+                                                <span class="text-[#303030]/40 text-xl font-light">{{ product.compare_at_price | money }}</span>
+                                            </h5>
+                                          {% else %}
+                                            <h3 class="text-[26px] leading-[34px] text-[#303030]">
+                                                <span class="text-[#303030] text-[26px] font-light">{{ product.price | money }}</span>
+                                            </h3>
+                                          {% endif %}
+                                      </span>
+                                      <p class="text-base">
+                                          {% if product.tags contains 'preorder' %}
+                                            <span class="text-[#008CFF] text-base font-normal flex gap-1 items-center">
+                                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_1_1658)">
+                                                        <path d="M5.44411 13.8164C1.22817 12.9481 -1.13914 8.27863 0.548668 4.3325C2.46594 -0.28619 8.41988 -1.50898 11.8901 2.14419C12.3734 2.68471 11.6225 3.40579 11.1023 2.90248C7.47172 -0.95443 1.06653 1.80904 1.0972 7.05021C1.09717 9.76426 2.93717 12.1032 5.57175 12.738C5.86529 12.8088 6.04593 13.1041 5.97518 13.3976C5.91482 13.6481 5.69091 13.8164 5.44411 13.8164ZM14 3.36014V1.80196C14 1.5 13.7552 1.25523 13.4533 1.25523C13.1513 1.25523 12.9065 1.5 12.9065 1.80196V3.36014C12.9065 3.66161 12.6613 3.90687 12.3598 3.90687H10.8016C10.4997 3.90687 10.2549 4.15164 10.2549 4.4536C10.2549 4.75556 10.4997 5.00033 10.8016 5.00033H12.3598C13.2642 5.00033 14 4.26454 14 3.36014ZM12.2231 9.26482C12.2231 9.64226 12.5291 9.94824 12.9065 9.94824C13.8123 9.91464 13.8116 8.61471 12.9065 8.58141C12.5291 8.58141 12.2231 8.88739 12.2231 9.26482ZM11.0477 11.2604C11.0477 11.6378 11.3536 11.9438 11.7311 11.9438C12.6369 11.9102 12.6362 10.6103 11.7311 10.577C11.3536 10.577 11.0477 10.883 11.0477 11.2604ZM9.24345 12.6545C9.24345 13.032 9.54943 13.338 9.92686 13.338C10.8327 13.3044 10.832 12.0044 9.92686 11.9711C9.54943 11.9711 9.24345 12.2771 9.24345 12.6545ZM6.97452 13.3106C6.97452 13.6881 7.2805 13.994 7.65793 13.994C8.56373 13.9604 8.56304 12.6605 7.65793 12.6272C7.2805 12.6272 6.97452 12.9332 6.97452 13.3106ZM7.00186 6.1758C6.99437 6.1758 6.98699 6.17616 6.97955 6.17638L5.38993 4.61081C5.17479 4.39893 4.82861 4.40155 4.61675 4.61669C4.40489 4.83183 4.40751 5.17799 4.62262 5.38988L6.18474 6.92837C6.14294 7.40296 6.52527 7.8184 7.00183 7.81602C8.08846 7.77586 8.08829 6.21588 7.00186 6.1758Z" fill="#008CFF"></path>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_1_1658">
+                                                            <rect width="14" height="14" fill="white"></rect>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                                Pre Order
+                                            </span>
+                                          {% elsif product.available %}
+                                            {% assign inventory_quantity = product.selected_or_first_available_variant.inventory_quantity %}
+                                            {% if inventory_quantity <= 5 and inventory_quantity > 0 %}
+                                              <span class="text-[#FF9900] text-base font-normal flex gap-1 items-center">
+                                                  <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                      <g clip-path="url(#clip0_1_1706)">
+                                                          <path d="M9.24043 7.2655L7.4375 9.06887V4.4375C7.4375 4.196 7.2415 4 7 4C6.7585 4 6.5625 4.196 6.5625 4.4375V9.06887L4.75957 7.26593C4.5885 7.09487 4.31157 7.09487 4.14093 7.26593C3.96987 7.437 3.96987 7.71393 4.14093 7.88454L6.61587 10.3595C6.72087 10.4645 6.86437 10.4968 7.00046 10.4728C7.13609 10.4968 7.28002 10.464 7.38502 10.3595L9.85996 7.88454C10.031 7.71348 10.031 7.43657 9.85996 7.26593C9.68843 7.09487 9.4115 7.09487 9.24043 7.2655ZM7 0.5C3.13426 0.5 0 3.6338 0 7.5C0 11.3662 3.13426 14.5 7 14.5C10.8657 14.5 14 11.3657 14 7.5C14 3.63426 10.8662 0.5 7 0.5ZM7 13.625C3.61724 13.625 0.875 10.8828 0.875 7.5C0.875 4.11724 3.61724 1.375 7 1.375C10.3828 1.375 13.125 4.11724 13.125 7.5C13.125 10.8828 10.3828 13.625 7 13.625Z" fill="#FF9900" />
+                                                      </g>
+                                                      <defs>
+                                                          <clipPath id="clip0_1_1706">
+                                                              <rect width="14" height="14" fill="white" transform="translate(0 0.5)" />
+                                                          </clipPath>
+                                                      </defs>
+                                                  </svg>
+                                                  Low Stock
+                                              </span>
+                                            {% else %}
+                                              <span class="text-[#1EC06A] text-base font-normal flex gap-1 items-center">
+                                                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                      <g clip-path="url(#clip0_1_1755)">
+                                                          <path d="M10.0943 4.77885C10.308 4.99248 10.308 5.33876 10.0943 5.55228L6.42557 9.22115C6.21194 9.43466 5.86577 9.43466 5.65215 9.22115L3.90567 7.47456C3.69205 7.26105 3.69205 6.91476 3.90567 6.70125C4.11919 6.48763 4.46547 6.48763 4.67899 6.70125L6.0388 8.06107L9.32091 4.77885C9.53453 4.56534 9.88081 4.56534 10.0943 4.77885ZM14 7C14 10.8692 10.8687 14 7 14C3.13075 14 0 10.8687 0 7C0 3.13075 3.13129 0 7 0C10.8692 0 14 3.13129 14 7ZM12.9062 7C12.9062 3.73531 10.2643 1.09375 7 1.09375C3.73531 1.09375 1.09375 3.73573 1.09375 7C1.09375 10.2647 3.73573 12.9062 7 12.9062C10.2647 12.9062 12.9062 10.2643 12.9062 7Z" fill="#1EC06A" />
+                                                      </g>
+                                                      <defs>
+                                                          <clipPath id="clip0_1_1755">
+                                                              <rect width="14" height="14" fill="white" />
+                                                          </clipPath>
+                                                      </defs>
+                                                  </svg>
+                                                  In stock
+                                              </span>
+                                            {% endif %}
+                                          {% else %}
+                                            <span class="text-[#E81014] text-base font-normal flex gap-1 items-center">
+                                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_1_1802)">
+                                                        <path d="M9.18755 5.45125L7.61692 7L9.18755 8.54875C9.23126 8.58968 9.2661 8.63914 9.28992 8.69407C9.31375 8.74901 9.32604 8.80825 9.32604 8.86813C9.32604 8.92801 9.31375 8.98725 9.28992 9.04218C9.2661 9.09712 9.23126 9.14658 9.18755 9.1875C9.14667 9.22805 9.09818 9.26013 9.04488 9.2819C8.99158 9.30367 8.9345 9.31471 8.87692 9.31438C8.76215 9.31389 8.65216 9.26833 8.57067 9.1875L7.00005 7.61688L5.4513 9.1875C5.36981 9.26833 5.25982 9.31389 5.14505 9.31438C5.08747 9.31471 5.03039 9.30367 4.97709 9.2819C4.92378 9.26013 4.8753 9.22805 4.83442 9.1875C4.75294 9.10553 4.7072 8.99465 4.7072 8.87906C4.7072 8.76348 4.75294 8.6526 4.83442 8.57063L6.38317 7L4.83442 5.45125C4.76275 5.36756 4.72529 5.2599 4.72955 5.14979C4.7338 5.03968 4.77945 4.93524 4.85736 4.85732C4.93528 4.7794 5.03973 4.73376 5.14984 4.7295C5.25994 4.72525 5.3676 4.7627 5.4513 4.83438L7.00005 6.38313L8.5488 4.83438C8.5893 4.79244 8.63767 4.75888 8.69114 4.73564C8.74461 4.71239 8.80214 4.6999 8.86044 4.69888C8.91874 4.69787 8.97666 4.70835 9.03091 4.72972C9.08516 4.75109 9.13467 4.78294 9.17661 4.82344C9.21855 4.86394 9.2521 4.91231 9.27535 4.96579C9.2986 5.01926 9.31109 5.07678 9.3121 5.13508C9.31312 5.19338 9.30264 5.25131 9.28127 5.30555C9.2599 5.3598 9.22805 5.40931 9.18755 5.45125ZM11.3313 11.3313C10.4747 12.1878 9.3833 12.7711 8.19519 13.0074C7.00707 13.2436 5.77557 13.1223 4.65641 12.6587C3.53725 12.1951 2.58069 11.41 1.90769 10.4028C1.2347 9.39557 0.875488 8.21139 0.875488 7C0.875488 5.78862 1.2347 4.60444 1.90769 3.5972C2.58069 2.58996 3.53725 1.80491 4.65641 1.3413C5.77557 0.877695 7.00707 0.756363 8.19519 0.992647C9.3833 1.22893 10.4747 1.81222 11.3313 2.66875C11.9001 3.23752 12.3513 3.91276 12.6592 4.65592C12.967 5.39908 13.1255 6.1956 13.1255 7C13.1255 7.8044 12.967 8.60092 12.6592 9.34408C12.3513 10.0872 11.9001 10.7625 11.3313 11.3313ZM10.7144 3.28563C9.97947 2.55323 9.04398 2.05502 8.02608 1.85393C7.00818 1.65283 5.95351 1.75786 4.99526 2.15576C4.03701 2.55365 3.21815 3.22657 2.64208 4.08953C2.06601 4.95249 1.75856 5.9668 1.75856 7.00438C1.75856 8.04195 2.06601 9.05626 2.64208 9.91923C3.21815 10.7822 4.03701 11.4551 4.99526 11.853C5.95351 12.2509 7.00818 12.3559 8.02608 12.1548C9.04398 11.9537 9.97947 11.4555 10.7144 10.7231C11.2039 10.2354 11.5922 9.65582 11.8572 9.01768C12.1222 8.37953 12.2586 7.69535 12.2586 7.00438C12.2586 6.3134 12.1222 5.62923 11.8572 4.99108C11.5922 4.35293 11.2039 3.77337 10.7144 3.28563Z" fill="#E81014" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_1_1802">
+                                                            <rect width="14" height="14" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                                Unavailable
+                                            </span>
+                                          {% endif %}
+                                      </p>
+                                  </div>
+                                  <div class="flex flex-col gap-2.5 items-start self-stretch relative w-full">
+                                      <div class="flex justify-between items-center self-stretch relative w-full">
+                                          <div class="rounded-[50px] flex flex-col gap-6 justify-center items-center relative w-full h-11 bg-[#008cff]">
+                                              <button class="rounded-[50px] px-6 py-3 flex gap-2 justify-center items-center self-stretch relative w-full h-11">
+                                                  <p class="text-base leading-6 uppercase text-[#f8f5ef]">
+                                                      <span class="text-[#f8f5ef] text-base font-bold">Add to cart</span>
+                                                  </p>
+                                                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                      <g clip-path="url(#clip0_29_1215)">
+                                                          <path d="M7.90904 19.2747C6.81092 19.2747 5.91748 18.3812 5.91748 17.2831C5.91748 16.185 6.81092 15.2919 7.90904 15.2919C9.00717 15.2919 9.90061 16.185 9.90061 17.2831C9.90061 18.3812 9.00717 19.2747 7.90904 19.2747ZM7.90904 16.5419C7.50029 16.5419 7.16748 16.8744 7.16748 17.2831C7.16748 17.6922 7.49998 18.0247 7.90904 18.0247C8.31811 18.0247 8.65061 17.6922 8.65061 17.2831C8.65061 16.8744 8.31811 16.5419 7.90904 16.5419Z" fill="white" />
+                                                          <path d="M14.8321 19.2747C13.7339 19.2747 12.8408 18.3812 12.8408 17.2831C12.8408 16.185 13.7339 15.2919 14.8321 15.2919C15.9302 15.2919 16.8236 16.185 16.8236 17.2831C16.8236 18.3812 15.9299 19.2747 14.8321 19.2747ZM14.8321 16.5419C14.4233 16.5419 14.0908 16.8744 14.0908 17.2831C14.0908 17.6922 14.4233 18.0247 14.8321 18.0247C15.2411 18.0247 15.5736 17.6922 15.5736 17.2831C15.5736 16.8744 15.2408 16.5419 14.8321 16.5419Z" fill="white" />
+                                                          <path d="M16.2901 13.7482H6.47168C5.51637 13.7482 4.70043 13.0978 4.4873 12.1666L2.44949 3.26753C2.42262 3.15003 2.34137 3.0494 2.23199 2.99878L0.541679 2.21534C0.150429 2.03409 -0.0198839 1.56972 0.161366 1.17815C0.342616 0.786903 0.807304 0.616591 1.19855 0.797841L2.88887 1.58128C3.43355 1.83347 3.83887 2.33347 3.97262 2.91878L6.01043 11.8185C6.0598 12.0347 6.24949 12.186 6.47168 12.186H16.2901C16.5114 12.186 16.7007 12.0357 16.7514 11.82L18.3357 5.00347C18.3811 4.80972 18.2986 4.66878 18.2457 4.60222C18.1926 4.53534 18.0739 4.42347 17.8751 4.42347H6.31262C5.88105 4.42347 5.53137 4.07378 5.53137 3.64222C5.53137 3.21065 5.88105 2.86097 6.31262 2.86097H17.8751C18.4998 2.86097 19.0804 3.14128 19.4692 3.63034C19.8579 4.1194 19.9992 4.74878 19.8579 5.35722L18.2732 12.1741C18.0573 13.1007 17.242 13.7482 16.2901 13.7482Z" fill="white" />
+                                                      </g>
+                                                      <defs>
+                                                          <clipPath id="clip0_29_1215">
+                                                              <rect width="20" height="20" fill="white" />
+                                                          </clipPath>
+                                                      </defs>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>
+                                      <a href="{{ product.url }}" class="rounded-[50px] border border-[#008cff] px-6 py-3 flex gap-2 justify-center items-center self-stretch relative w-full h-11 hover:bg-[#008cff] hover:text-white transition-colors">
+                                          <p class="text-base leading-6 uppercase text-black hover:text-white">
+                                              <span class="text-black text-base font-normal hover:text-white">Learn More</span>
+                                          </p>
+                                      </a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    {% endfor %}
+                  {% endpaginate %}
+                {% else %}
+                  <div class="text-center py-8 col-span-full">
+                    <p class="text-lg text-gray-500">No products found in this collection.</p>
+                  </div>
+                {% endif %}
+            </div>
+            {% if collection != blank %}
+              {% if paginate.pages > 1 %}
+                <div class="flex items-center justify-center gap-3 mt-10">
+                  {% if paginate.previous %}
+                    <a href="{{ paginate.previous.url }}" class="w-12 h-12 flex items-center justify-center rounded-full bg-[#F8F8F8] text-[#303030] hover:bg-[#ddd8c9] transition rotate-90">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 14L6.70149 8L2 2H3.65672L8.35821 8L3.65672 14H2ZM7.64179 14L12.3433 8L7.64179 2H9.29851L14 8L9.29851 14H7.64179Z" fill="#B8AF9F" />
+                      </svg>
+                    </a>
+                  {% endif %}
+
+                  {% for part in paginate.parts %}
+                    {% if part.is_link %}
+                      <a href="{{ part.url }}" class="w-12 h-12 flex items-center justify-center rounded-full bg-[#F8F8F8] text-[#303030] font-medium hover:bg-[#ddd8c9] transition">
+                        {{ part.title }}
+                      </a>
+                    {% else %}
+                      {% if part.title == paginate.current_page %}
+                        <span class="w-12 h-12 flex items-center justify-center rounded-full bg-[#EFEADE] text-[#303030] font-bold">
+                          {{ part.title }}
+                        </span>
+                      {% else %}
+                        <span class="w-12 h-12 flex items-center justify-center rounded-full bg-[#F8F8F8] text-[#303030] font-medium">
+                          {{ part.title }}
+                        </span>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+
+                  {% if paginate.next %}
+                    <a href="{{ paginate.next.url }}" class="w-12 h-12 flex items-center justify-center rounded-full bg-[#F8F8F8] text-[#303030] hover:bg-[#ddd8c9] transition">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 14L6.70149 8L2 2H3.65672L8.35821 8L3.65672 14H2ZM7.64179 14L12.3433 8L7.64179 2H9.29851L14 8L9.29851 14H7.64179Z" fill="#B8AF9F" />
+                      </svg>
+                    </a>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endif %}
+        </div>
+        <!-- Product Cards Grid-->
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('productGridSearchInput');
+  const resultCount = document.getElementById('searchResultCount');
+  const productCards = document.querySelectorAll('.product-cards .grid > div');
+
+  if (searchInput && productCards.length > 0) {
+    // Initialize result count
+    if (resultCount) {
+      resultCount.querySelector('span').textContent = `Showing all ${productCards.length} products`;
+    }
+
+    searchInput.addEventListener('keyup', (event) => {
+      const searchTerm = event.target.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      productCards.forEach(card => {
+        const productName = card.querySelector('span[class*="font-semibold"]');
+        if (productName) {
+          const name = productName.textContent.toLowerCase();
+          if (name.includes(searchTerm)) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+
+      // Update result count
+      if (resultCount) {
+        if (searchTerm === '') {
+          resultCount.querySelector('span').textContent = `Showing all ${productCards.length} products`;
+        } else {
+          resultCount.querySelector('span').textContent = `Showing ${visibleCount} products`;
+        }
+      }
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Custom Collection Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Shop Premium Research Peptides",
+      "info": "Main heading for the collection grid section"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Select the collection to display products from"
+    },
+    {
+      "type": "text",
+      "id": "search_label",
+      "label": "Search Input Label",
+      "default": "Search by product"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search Input Placeholder",
+      "default": "Search"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12,
+      "label": "Products per page"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Collection Grid"
+    }
+  ]
+}
+{% endschema %}

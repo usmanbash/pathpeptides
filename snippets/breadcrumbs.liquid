@@ -1,0 +1,199 @@
+{% comment %}
+  Breadcrumb snippet for navigation
+  Usage: {% render 'breadcrumbs' %}
+  
+  Automatically detects page type and generates appropriate breadcrumbs
+{% endcomment %}
+
+{% liquid
+  assign show_home = true
+  assign home_text = 'Home'
+  assign separator_color = '#B8AF9F'
+  assign current_page_color = '#008cff'
+%}
+
+<div class="inline-block rounded-[50px] px-3 pt-2.5 pb-2 items-start relative bg-[#f8f5ef]">
+  <div class="flex gap-2.5 justify-center items-center relative">
+    
+    {% if show_home %}
+      <!-- Home Link -->
+      <small class="text-sm leading-[14px] text-[#626262]">
+        <a href="/" class="text-[#626262] text-sm font-normal hover:text-[#303030] transition-colors">
+          {{ home_text }}
+        </a>
+      </small>
+      
+      <!-- Separator -->
+      <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_breadcrumb_1)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M6.83813 5.62106C7.05395 5.83037 7.05395 6.16965 6.83813 6.37896L1.2039 11.843C0.988082 12.0523 0.638231 12.0523 0.422411 11.843L0.161865 11.5904C-0.053955 11.3811 -0.053955 11.0417 0.161865 10.8324L5.14481 6.00001L0.161864 1.16755C-0.0539555 0.958243 -0.0539555 0.618957 0.161864 0.409654L0.42241 0.156977C0.63823 -0.0523256 0.988081 -0.0523256 1.2039 0.156977L6.83813 5.62106Z" fill="{{ separator_color }}" />
+        </g>
+        <defs>
+          <clipPath id="clip0_breadcrumb_1">
+            <rect width="12" height="7" fill="white" transform="translate(0 12) rotate(-90)" />
+          </clipPath>
+        </defs>
+      </svg>
+    {% endif %}
+
+    {% case template %}
+      {% when 'collection' %}
+        <!-- Collections Link -->
+        <small class="text-sm leading-[14px] text-[#626262]">
+          <a href="/collections" class="text-[#626262] text-sm font-normal hover:text-[#303030] transition-colors">
+            Collections
+          </a>
+        </small>
+        
+        <!-- Separator -->
+        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_breadcrumb_2)">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.70499 5.65912C6.89721 5.84741 6.89721 6.15264 6.70499 6.34093L1.68698 11.2565C1.49476 11.4448 1.18317 11.4448 0.990958 11.2565L0.758908 11.0292C0.566692 10.8409 0.566692 10.5357 0.758908 10.3474L5.19686 6.00002L0.758907 1.65264C0.566692 1.46434 0.566692 1.15912 0.758907 0.970823L0.990957 0.743509C1.18317 0.555216 1.49476 0.555216 1.68698 0.743509L6.70499 5.65912Z" fill="{{ separator_color }}" />
+          </g>
+          <defs>
+            <clipPath id="clip0_breadcrumb_2">
+              <rect width="12" height="7" fill="white" transform="translate(0 12) rotate(-90)" />
+            </clipPath>
+          </defs>
+        </svg>
+        
+        <!-- Current Collection -->
+        <small class="text-sm leading-[14px] text-[{{ current_page_color }}]">
+          <span class="text-[{{ current_page_color }}] text-sm font-normal">{{ collection.title | default: 'Collection' }}</span>
+        </small>
+
+      {% when 'product' %}
+        <!-- Collections Link -->
+        <small class="text-sm leading-[14px] text-[#626262]">
+          <a href="/collections" class="text-[#626262] text-sm font-normal hover:text-[#303030] transition-colors">
+            Collections
+          </a>
+        </small>
+        
+        <!-- Separator -->
+        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_breadcrumb_2)">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.70499 5.65912C6.89721 5.84741 6.89721 6.15264 6.70499 6.34093L1.68698 11.2565C1.49476 11.4448 1.18317 11.4448 0.990958 11.2565L0.758908 11.0292C0.566692 10.8409 0.566692 10.5357 0.758908 10.3474L5.19686 6.00002L0.758907 1.65264C0.566692 1.46434 0.566692 1.15912 0.758907 0.970823L0.990957 0.743509C1.18317 0.555216 1.49476 0.555216 1.68698 0.743509L6.70499 5.65912Z" fill="{{ separator_color }}" />
+          </g>
+          <defs>
+            <clipPath id="clip0_breadcrumb_2">
+              <rect width="12" height="7" fill="white" transform="translate(0 12) rotate(-90)" />
+            </clipPath>
+          </defs>
+        </svg>
+
+        {% if product.collections.first %}
+          <!-- Collection Link -->
+          <small class="text-sm leading-[14px] text-[#626262]">
+            <a href="{{ product.collections.first.url }}" class="text-[#626262] text-sm font-normal hover:text-[#303030] transition-colors">
+              {{ product.collections.first.title }}
+            </a>
+          </small>
+          
+          <!-- Separator -->
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_breadcrumb_3)">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M6.70499 5.65912C6.89721 5.84741 6.89721 6.15264 6.70499 6.34093L1.68698 11.2565C1.49476 11.4448 1.18317 11.4448 0.990958 11.2565L0.758908 11.0292C0.566692 10.8409 0.566692 10.5357 0.758908 10.3474L5.19686 6.00002L0.758907 1.65264C0.566692 1.46434 0.566692 1.15912 0.758907 0.970823L0.990957 0.743509C1.18317 0.555216 1.49476 0.555216 1.68698 0.743509L6.70499 5.65912Z" fill="{{ separator_color }}" />
+            </g>
+            <defs>
+              <clipPath id="clip0_breadcrumb_3">
+                <rect width="12" height="7" fill="white" transform="translate(0 12) rotate(-90)" />
+              </clipPath>
+            </defs>
+          </svg>
+        {% endif %}
+        
+        <!-- Current Product -->
+        <small class="text-sm leading-[14px] text-[{{ current_page_color }}]">
+          <span class="text-[{{ current_page_color }}] text-sm font-normal">{{ product.title | default: 'Product' }}</span>
+        </small>
+
+      {% when 'page' %}
+        <!-- Current Page -->
+        <small class="text-sm leading-[14px] text-[{{ current_page_color }}]">
+          <span class="text-[{{ current_page_color }}] text-sm font-normal">{{ page.title | default: 'Page' }}</span>
+        </small>
+
+      {% when 'blog' %}
+        <!-- Blog Link -->
+        <small class="text-sm leading-[14px] text-[#626262]">
+          <a href="/blogs" class="text-[#626262] text-sm font-normal hover:text-[#303030] transition-colors">
+            Blog
+          </a>
+        </small>
+        
+        <!-- Separator -->
+        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_breadcrumb_2)">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.70499 5.65912C6.89721 5.84741 6.89721 6.15264 6.70499 6.34093L1.68698 11.2565C1.49476 11.4448 1.18317 11.4448 0.990958 11.2565L0.758908 11.0292C0.566692 10.8409 0.566692 10.5357 0.758908 10.3474L5.19686 6.00002L0.758907 1.65264C0.566692 1.46434 0.566692 1.15912 0.758907 0.970823L0.990957 0.743509C1.18317 0.555216 1.49476 0.555216 1.68698 0.743509L6.70499 5.65912Z" fill="{{ separator_color }}" />
+          </g>
+          <defs>
+            <clipPath id="clip0_breadcrumb_2">
+              <rect width="12" height="7" fill="white" transform="translate(0 12) rotate(-90)" />
+            </clipPath>
+          </defs>
+        </svg>
+        
+        <!-- Current Blog -->
+        <small class="text-sm leading-[14px] text-[{{ current_page_color }}]">
+          <span class="text-[{{ current_page_color }}] text-sm font-normal">{{ blog.title | default: 'Blog' }}</span>
+        </small>
+
+      {% when 'article' %}
+        <!-- Blog Link -->
+        <small class="text-sm leading-[14px] text-[#626262]">
+          <a href="/blogs" class="text-[#626262] text-sm font-normal hover:text-[#303030] transition-colors">
+            Blog
+          </a>
+        </small>
+        
+        <!-- Separator -->
+        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_breadcrumb_2)">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.70499 5.65912C6.89721 5.84741 6.89721 6.15264 6.70499 6.34093L1.68698 11.2565C1.49476 11.4448 1.18317 11.4448 0.990958 11.2565L0.758908 11.0292C0.566692 10.8409 0.566692 10.5357 0.758908 10.3474L5.19686 6.00002L0.758907 1.65264C0.566692 1.46434 0.566692 1.15912 0.758907 0.970823L0.990957 0.743509C1.18317 0.555216 1.49476 0.555216 1.68698 0.743509L6.70499 5.65912Z" fill="{{ separator_color }}" />
+          </g>
+          <defs>
+            <clipPath id="clip0_breadcrumb_2">
+              <rect width="12" height="7" fill="white" transform="translate(0 12) rotate(-90)" />
+            </clipPath>
+          </defs>
+        </svg>
+
+        <!-- Blog Title -->
+        <small class="text-sm leading-[14px] text-[#626262]">
+          <a href="{{ blog.url }}" class="text-[#626262] text-sm font-normal hover:text-[#303030] transition-colors">
+            {{ blog.title }}
+          </a>
+        </small>
+        
+        <!-- Separator -->
+        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_breadcrumb_3)">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.70499 5.65912C6.89721 5.84741 6.89721 6.15264 6.70499 6.34093L1.68698 11.2565C1.49476 11.4448 1.18317 11.4448 0.990958 11.2565L0.758908 11.0292C0.566692 10.8409 0.566692 10.5357 0.758908 10.3474L5.19686 6.00002L0.758907 1.65264C0.566692 1.46434 0.566692 1.15912 0.758907 0.970823L0.990957 0.743509C1.18317 0.555216 1.49476 0.555216 1.68698 0.743509L6.70499 5.65912Z" fill="{{ separator_color }}" />
+          </g>
+          <defs>
+            <clipPath id="clip0_breadcrumb_3">
+              <rect width="12" height="7" fill="white" transform="translate(0 12) rotate(-90)" />
+            </clipPath>
+          </defs>
+        </svg>
+        
+        <!-- Current Article -->
+        <small class="text-sm leading-[14px] text-[{{ current_page_color }}]">
+          <span class="text-[{{ current_page_color }}] text-sm font-normal">{{ article.title | default: 'Article' }}</span>
+        </small>
+
+      {% else %}
+        <!-- Default: Just show current page -->
+        <small class="text-sm leading-[14px] text-[{{ current_page_color }}]">
+          <span class="text-[{{ current_page_color }}] text-sm font-normal">
+            {% if page.title %}
+              {{ page.title }}
+            {% else %}
+              Current Page
+            {% endif %}
+          </span>
+        </small>
+    {% endcase %}
+  </div>
+</div>

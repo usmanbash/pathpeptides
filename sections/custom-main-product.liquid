@@ -1,0 +1,558 @@
+
+{% if section.settings.show_breadcrumb %}
+<section class="max-w-[1280px] container mx-auto">
+    <div class="py-2 sm:pl-0 pt-0 sm:pt-[80px] pb-0 sm:pb-8 mb-6 w-full border-0 sm:border-b sm:border-[#E9E9E9] ">
+        <!-- Breadcrumb for mobile -->
+        {% render 'breadcrumbs' %}
+    </div>
+</section>
+{% endif %}
+<section class="px-0 py-12 sm:py-0">
+    <div class="px-4 sm:px-8 lg:px-[82px] sm:py-10  flex flex-col gap-10 lg:gap-0 justify-center items-center relative max-w-[1440px] container mx-auto">
+        <!-- Wrapper for Gallery + Info -->
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-5 w-full relative">
+            <div class="product-gallery flex flex-col gap-4 items-start w-full lg:w-1/2">
+                <div class="flex flex-col md:flex-row gap-4 w-full max-w-5xl mx-auto">
+                    <!-- Thumbnails -->
+                    <div class="swiper thumbsSwiper flex md:flex-col w-full md:w-24 order-2 md:order-1">
+                        <div class="swiper-wrapper flex flex-row md:flex-col gap-4 w-full">
+                            {% for image in product.images limit: section.settings.max_images %}
+                            <div class="swiper-slide cursor-pointer rounded-lg overflow-hidden border border-gray-200 !h-20 !w-20 md:!w-full">
+                                <img src="{{ image | image_url: width: 100 }}" alt="{{ image.alt | escape }}" class="w-full h-full object-cover" />
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Main Gallery -->
+                    <div class="swiper mainSwiper flex-1 rounded-2xl overflow-hidden w-full order-1 md:order-2">
+                        <div class="swiper-wrapper">
+                            {% for image in product.images limit: section.settings.max_images %}
+                            <div class="swiper-slide relative flex justify-center items-center aspect-[4/3] bg-white w-full">
+                                <img src="{{ image | image_url: width: 800 }}" alt="{{ image.alt | escape }}" class="w-full h-full object-contain" />
+                                {% if section.settings.show_category_badge and product.metafields.custom.product_category %}
+                                <span class="absolute top-3 right-3 bg-white text-gray-800 px-3 py-1 text-sm rounded shadow">
+                                    {{ product.metafields.custom.product_category }}
+                                </span>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- product-gallery -->
+            <!-- Information Section -->
+            <div class="information-section flex flex-col gap-8 items-start w-full lg:w-1/2">
+                <!-- Title + Description -->
+                <div class="flex flex-col gap-6 w-full order-2 sm:order-1">
+                    <h1 class="text-2xl sm:text-3xl lg:text-[34px] leading-snug tracking-[-0.03em] uppercase text-[#0c0c0c] font-medium">
+                        {{ product.title }}
+                    </h1>
+                    {% if section.settings.show_description %}
+                    <div class="text-sm sm:text-base leading-relaxed" style="color: {{ section.settings.text_color }}">
+                        {{ product.description }}
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- Custom Information Blocks -->
+                {% for block in section.blocks %}
+                  {% if block.type == 'custom_info' and block.settings.position == 'before_tabs' %}
+                    <div class="flex flex-col gap-2 w-full order-2 sm:order-1" {{ block.shopify_attributes }}>
+                      {% if block.settings.title != blank %}
+                        <h3 class="text-lg font-medium" style="color: {{ section.settings.text_color }}">{{ block.settings.title }}</h3>
+                      {% endif %}
+                      {% if block.settings.content != blank %}
+                        <div class="text-sm sm:text-base leading-relaxed" style="color: {{ section.settings.text_color }}">
+                          {{ block.settings.content }}
+                        </div>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+
+                <!-- Tabs -->
+                {% if section.settings.show_tabs %}
+                <div x-data="{ tab: 'benefits' }" class="flex flex-col gap-0 w-full order-2 sm:order-1">
+                    <div class="flex w-full relative">
+                        <button @click="tab = 'benefits'" :class="tab === 'benefits' ? 'border-x border-t border-b-0 rounded-t-3xl border-[#e9e9e9]' : 'text-black/40 border-b border-[#e9e9e9]'" class="flex-1 h-[50px] flex justify-center items-center bg-white transition text-sm sm:text-base" style="color: {{ section.settings.text_color }}">
+                            {{ section.settings.benefits_tab_title }}
+                        </button>
+                        <button @click="tab = 'clinical'" :class="tab === 'clinical' ? 'border-x border-t border-b-0 rounded-t-3xl border-[#e9e9e9]' : 'text-black/40 border-b border-[#e9e9e9]'" class="flex-1 h-[50px] flex justify-center items-center bg-white transition text-sm sm:text-base" style="color: {{ section.settings.text_color }}">
+                            {{ section.settings.clinical_tab_title }}
+                        </button>
+                    </div>
+                    <div class="rounded-b-3xl border border-[#e9e9e9] p-4 sm:p-6 bg-white">
+                        <div x-show="tab === 'benefits'" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {% if product.metafields.custom.benefits %}
+                                <div class="text-sm sm:text-base leading-relaxed" style="color: {{ section.settings.text_color }}">
+                                    {{ product.metafields.custom.benefits | newline_to_br }}
+                                </div>
+                            {% else %}
+                                <div class="text-sm sm:text-base leading-relaxed" style="color: {{ section.settings.text_color }}">
+                                    {{ section.settings.fallback_benefits | newline_to_br }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div x-show="tab === 'clinical'" class="text-sm sm:text-base" style="color: {{ section.settings.text_color }}">
+                            {% if product.metafields.custom.clinical_references %}
+                                <div class="space-y-2">
+                                    {{ product.metafields.custom.clinical_references | newline_to_br }}
+                                </div>
+                            {% else %}
+                                <div class="space-y-2">
+                                    {{ section.settings.fallback_clinical | newline_to_br }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Custom Information Blocks -->
+                {% for block in section.blocks %}
+                  {% if block.type == 'custom_info' and block.settings.position == 'after_tabs' %}
+                    <div class="flex flex-col gap-2 w-full order-2 sm:order-1" {{ block.shopify_attributes }}>
+                      {% if block.settings.title != blank %}
+                        <h3 class="text-lg font-medium" style="color: {{ section.settings.text_color }}">{{ block.settings.title }}</h3>
+                      {% endif %}
+                      {% if block.settings.content != blank %}
+                        <div class="text-sm sm:text-base leading-relaxed" style="color: {{ section.settings.text_color }}">
+                          {{ block.settings.content }}
+                        </div>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+                <!-- tabs end -->
+                <!-- Price + Stock -->
+                <div class="flex flex-row sm:flex-row sm:items-center gap-3 w-full order-1 sm:order-2">
+                    <div class="flex gap-3 items-baseline">
+                        {% assign selected_variant = product.selected_or_first_available_variant %}
+                        <h1 class="text-2xl sm:text-3xl text-[#303030] font-light">{{ selected_variant.price | money }}</h1>
+                        {% if section.settings.show_compare_price and selected_variant.compare_at_price > selected_variant.price %}
+                        <h3 class="text-lg sm:text-xl line-through text-[#303030]/40">{{ selected_variant.compare_at_price | money }}</h3>
+                        {% endif %}
+                    </div>
+                    <span class="text-green-600 text-sm sm:text-base flex items-center gap-2 ml-2">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_1_1990)">
+                                <path d="M10.0943 4.77885C10.308 4.99248 10.308 5.33876 10.0943 5.55228L6.42557 9.22115C6.21194 9.43466 5.86577 9.43466 5.65215 9.22115L3.90567 7.47456C3.69205 7.26105 3.69205 6.91476 3.90567 6.70125C4.11919 6.48763 4.46547 6.48763 4.67899 6.70125L6.0388 8.06107L9.32091 4.77885C9.53453 4.56534 9.88081 4.56534 10.0943 4.77885ZM14 7C14 10.8692 10.8687 14 7 14C3.13075 14 0 10.8687 0 7C0 3.13075 3.13129 0 7 0C10.8692 0 14 3.13129 14 7ZM12.9062 7C12.9062 3.73531 10.2643 1.09375 7 1.09375C3.73531 1.09375 1.09375 3.73573 1.09375 7C1.09375 10.2647 3.73573 12.9062 7 12.9062C10.2647 12.9062 12.9062 10.2643 12.9062 7Z" fill="#1EC06A" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_1_1990">
+                                    <rect width="14" height="14" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        {% if selected_variant.available %}In stock{% else %}Out of stock{% endif %}</span>
+                </div>
+                <!-- Options -->
+                <form class="order-3" action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form">
+                <div class="flex flex-row  sm:flex-row gap-4 w-full order-1 sm:order-2">
+                    {% unless product.has_only_default_variant %}
+                    <div class="flex flex-col gap-2 w-full sm:w-auto">
+                        {% for option in product.options_with_values %}
+                        <label class="text-sm sm:text-base" style="color: {{ section.settings.text_color }}">Select {{ option.name }}:</label>
+                        <div class="relative">
+                            <select name="options[{{ option.name | escape }}]" class="appearance-none rounded-full px-[12px] py-[12px] w-full text-gray-800 text-sm focus:outline-none cursor-pointer variant-selector" style="background-color: {{ section.settings.background_color }}" data-option-name="{{ option.name }}">
+                                {% for value in option.values %}
+                                <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                            <!-- Chevron -->
+                            <svg class="pointer-events-none absolute right-3 top-[30px] -translate-y-1/2 w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endunless %}
+                    <div class="flex flex-col gap-2 w-full sm:w-auto">
+                        <label class="text-sm sm:text-base" style="color: {{ section.settings.text_color }}">Quantity:</label>
+                        <!-- Quantity Stepper -->
+                        <div class="flex items-center rounded-full bg-[#f8f5ef] px-3 py-2 gap-4">
+                            <button type="button" class="text-gray-600 text-lg font-light focus:outline-none quantity-decrease">−</button>
+                            <input style="appearance:none" type="number" name="quantity" value="1" min="1" class="text-gray-800 text-sm bg-transparent border-none text-center w-8 focus:outline-none quantity-input">
+                            <button type="button" class="text-gray-600 text-lg font-light focus:outline-none quantity-increase">+</button>
+                        </div>
+                    </div>
+                    {% if section.settings.show_savings_percentage and selected_variant.compare_at_price > selected_variant.price %}
+                    <div class="flex flex-col gap-2 w-full sm:w-auto pt-10">
+                        {% assign savings = selected_variant.compare_at_price | minus: selected_variant.price %}
+                        {% assign savings_percent = savings | times: 100 | divided_by: selected_variant.compare_at_price %}
+                        <p class="text-sm sm:text-base font-bold" style="color: {{ section.settings.primary_color }}">Save {{ savings_percent }}%</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto order-1 sm:order-2 mt-8">
+                    <input type="hidden" name="id" value="{{ selected_variant.id }}" class="variant-id">
+                    <button type="submit" class="rounded-full px-6 py-3 text-white text-sm sm:text-base font-bold uppercase flex justify-center items-center {% unless selected_variant.available %}opacity-50 cursor-not-allowed{% endunless %}" style="background-color: {{ section.settings.primary_color }}" {% unless selected_variant.available %}disabled{% endunless %}>
+                        {% if selected_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+                    </button>
+                    {% if section.settings.show_shipping_banner %}
+                    <div class="rounded-[50px] flex items-center gap-2.5 items-start relative h-13 pr-3" style="background-color: {{ section.settings.background_color }}">
+                        <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="52" height="52" rx="26" fill="{{ section.settings.background_color }}" />
+                            <path d="M40.1519 20.9663L30.447 15.4791C30.2779 15.3835 30.073 15.3835 29.9039 15.4791L26.2545 17.5425C26.172 17.5661 26.0951 17.6095 26.0299 17.6694L20.1991 20.9663C20.0185 21.0684 19.9064 21.2636 19.9064 21.4756V22.6635H13.3965C13.0848 22.6635 12.8322 22.9238 12.8322 23.2444C12.8322 23.5654 13.0848 23.8254 13.3965 23.8254H19.9064V25.917H16.6715C16.3598 25.917 16.1072 26.1773 16.1072 26.498C16.1072 26.8189 16.3598 27.079 16.6715 27.079H19.9064V30.1002H15.1668C14.8551 30.1002 14.6025 30.3605 14.6025 30.6812C14.6025 31.0021 14.8551 31.2622 15.1668 31.2622H19.9064V32.4503C19.9064 32.6623 20.0185 32.8574 20.1991 32.9596L29.9039 38.4468C29.9886 38.4947 30.082 38.5185 30.1755 38.5185C30.2689 38.5185 30.3624 38.4947 30.447 38.4468L40.1519 32.9596C40.3324 32.8574 40.4446 32.6623 40.4446 32.4503V29.8485C40.4446 29.5278 40.192 29.2675 39.8803 29.2675C39.5687 29.2675 39.3161 29.5278 39.3161 29.8485V32.1065L30.7397 36.9557V27.3067L33.4672 25.7645V28.212C33.4672 28.4176 33.5726 28.6078 33.7442 28.7122C33.8326 28.766 33.932 28.793 34.0314 28.793C34.1249 28.793 34.2186 28.7691 34.3034 28.721L36.3832 27.5425C36.5632 27.4403 36.6752 27.2454 36.6752 27.0334V23.9507L39.3161 22.4576V25.2005C39.3161 25.5215 39.5687 25.7815 39.8803 25.7815C40.192 25.7815 40.4446 25.5215 40.4446 25.2005V21.4756C40.4446 21.2636 40.3324 21.0684 40.1519 20.9663ZM29.6112 36.9557L21.0348 32.1065V22.4576L29.6112 27.3067V36.9557ZM30.1755 26.3001L21.6429 21.4756L24.3246 19.9593L32.8573 24.7839L30.1755 26.3001ZM34.0297 24.1209L25.4969 19.2964L26.422 18.7735L34.9545 23.598L34.0297 24.1209ZM35.5467 26.69L34.5957 27.229V25.1266L35.5467 24.5887V26.69ZM36.1268 22.9351L27.5943 18.1106L30.1755 16.6513L38.708 21.4756L36.1268 22.9351Z" fill="black" />
+                            <path d="M39.8803 26.9438C39.732 26.9438 39.5863 27.0053 39.4814 27.114C39.3765 27.222 39.3161 27.3713 39.3161 27.5248C39.3161 27.6775 39.3765 27.8275 39.4814 27.9355C39.5863 28.0436 39.732 28.1058 39.8803 28.1058C40.0286 28.1058 40.1743 28.0436 40.2792 27.9355C40.3842 27.8275 40.4446 27.6775 40.4446 27.5248C40.4446 27.3713 40.3842 27.222 40.2792 27.114C40.1743 27.0053 40.0286 26.9438 39.8803 26.9438Z" fill="black" />
+                            <path d="M12.9286 30.1002H12.1199C11.8082 30.1002 11.5557 30.3605 11.5557 30.6812C11.5557 31.0021 11.8082 31.2622 12.1199 31.2622H12.9286C13.2402 31.2622 13.4928 31.0021 13.4928 30.6812C13.4928 30.3605 13.2402 30.1002 12.9286 30.1002Z" fill="black" />
+                            <path d="M14.979 26.498C14.979 26.3453 14.9186 26.1955 14.8135 26.0875C14.7086 25.9792 14.5631 25.917 14.4148 25.917C14.2662 25.917 14.1207 25.9792 14.0158 26.0875C13.9102 26.1955 13.8505 26.3453 13.8505 26.498C13.8505 26.651 13.9102 26.8008 14.0158 26.9088C14.1207 27.0168 14.2662 27.079 14.4148 27.079C14.5631 27.079 14.7086 27.0171 14.8135 26.9088C14.9186 26.8008 14.979 26.651 14.979 26.498Z" fill="black" />
+                        </svg>
+                        <p class="text-base leading-[21px]" style="color: {{ section.settings.text_color }}">
+                            <span class="text-base font-medium" style="color: {{ section.settings.text_color }}">{{ section.settings.shipping_text }}</span>
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Trust Badges -->
+                    {% for block in section.blocks %}
+                      {% if block.type == 'trust_badge' %}
+                        <div class="flex items-center gap-2" {{ block.shopify_attributes }}>
+                          {% if block.settings.image %}
+                            <img src="{{ block.settings.image | image_url: width: 50 }}" alt="{{ block.settings.text | escape }}" class="w-8 h-8">
+                          {% endif %}
+                          {% if block.settings.text %}
+                            {% if block.settings.link %}
+                              <a href="{{ block.settings.link }}" class="text-sm font-medium" style="color: {{ section.settings.text_color }}">
+                                {{ block.settings.text }}
+                              </a>
+                            {% else %}
+                              <span class="text-sm font-medium" style="color: {{ section.settings.text_color }}">
+                                {{ block.settings.text }}
+                              </span>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+
+                    <!-- Custom Information Blocks -->
+                    {% for block in section.blocks %}
+                      {% if block.type == 'custom_info' and block.settings.position == 'after_price' %}
+                        <div class="flex flex-col gap-2" {{ block.shopify_attributes }}>
+                          {% if block.settings.title != blank %}
+                            <h3 class="text-lg font-medium" style="color: {{ section.settings.text_color }}">{{ block.settings.title }}</h3>
+                          {% endif %}
+                          {% if block.settings.content != blank %}
+                            <div class="text-sm sm:text-base leading-relaxed" style="color: {{ section.settings.text_color }}">
+                              {{ block.settings.content }}
+                            </div>
+                          {% endif %}
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                </div>
+                </form>
+            </div>
+            <!-- information-section -->
+        </div>
+    </div>
+</section>
+
+<script>
+// Variant selection handling
+document.addEventListener('DOMContentLoaded', function() {
+    const variantSelectors = document.querySelectorAll('.variant-selector');
+    const variantIdInput = document.querySelector('.variant-id');
+    const quantityInput = document.querySelector('.quantity-input');
+    const quantityDecrease = document.querySelector('.quantity-decrease');
+    const quantityIncrease = document.querySelector('.quantity-increase');
+    
+    // Product variants data
+    const variants = {{ product.variants | json }};
+    
+    // Update variant based on selections
+    function updateVariant() {
+        const selectedOptions = {};
+        variantSelectors.forEach(selector => {
+            selectedOptions[selector.dataset.optionName] = selector.value;
+        });
+        
+        const matchingVariant = variants.find(variant => {
+            return variant.options.every((option, index) => {
+                const optionName = Object.keys(selectedOptions)[index];
+                return selectedOptions[optionName] === option;
+            });
+        });
+        
+        if (matchingVariant && variantIdInput) {
+            variantIdInput.value = matchingVariant.id;
+            
+            // Update price display
+            const priceElement = document.querySelector('h1.text-2xl.sm\\:text-3xl.text-\\[\\#303030\\]');
+            if (priceElement) {
+                priceElement.textContent = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                }).format(matchingVariant.price / 100);
+            }
+            
+            // Update compare at price
+            const compareAtPriceElement = document.querySelector('h3.text-lg.sm\\:text-xl.line-through');
+            if (compareAtPriceElement) {
+                if (matchingVariant.compare_at_price && matchingVariant.compare_at_price > matchingVariant.price) {
+                    compareAtPriceElement.textContent = new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD'
+                    }).format(matchingVariant.compare_at_price / 100);
+                    compareAtPriceElement.style.display = 'block';
+                } else {
+                    compareAtPriceElement.style.display = 'none';
+                }
+            }
+            
+            // Update savings percentage
+            const savingsElement = document.querySelector('p[style*="color:"][class*="font-bold"]');
+            if (savingsElement && matchingVariant.compare_at_price && matchingVariant.compare_at_price > matchingVariant.price) {
+                const savings = matchingVariant.compare_at_price - matchingVariant.price;
+                const savingsPercent = Math.round((savings / matchingVariant.compare_at_price) * 100);
+                savingsElement.textContent = `Save ${savingsPercent}%`;
+                savingsElement.style.display = 'block';
+            } else if (savingsElement) {
+                savingsElement.style.display = 'none';
+            }
+            
+            // Update availability
+            const stockElement = document.querySelector('.text-green-600');
+            const addToCartBtn = document.querySelector('button[type="submit"]');
+            if (stockElement) {
+                stockElement.innerHTML = matchingVariant.available ? 
+                    '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_1990)"><path d="M10.0943 4.77885C10.308 4.99248 10.308 5.33876 10.0943 5.55228L6.42557 9.22115C6.21194 9.43466 5.86577 9.43466 5.65215 9.22115L3.90567 7.47456C3.69205 7.26105 3.69205 6.91476 3.90567 6.70125C4.11919 6.48763 4.46547 6.48763 4.67899 6.70125L6.0388 8.06107L9.32091 4.77885C9.53453 4.56534 9.88081 4.56534 10.0943 4.77885ZM14 7C14 10.8692 10.8687 14 7 14C3.13075 14 0 10.8687 0 7C0 3.13075 3.13129 0 7 0C10.8692 0 14 3.13129 14 7ZM12.9062 7C12.9062 3.73531 10.2643 1.09375 7 1.09375C3.73531 1.09375 1.09375 3.73573 1.09375 7C1.09375 10.2647 3.73573 12.9062 7 12.9062C10.2647 12.9062 12.9062 10.2643 12.9062 7Z" fill="#1EC06A" /></g><defs><clipPath id="clip0_1_1990"><rect width="14" height="14" fill="white" /></clipPath></defs></svg>In stock' :
+                    'Out of stock';
+            }
+            
+            if (addToCartBtn) {
+                addToCartBtn.disabled = !matchingVariant.available;
+                addToCartBtn.textContent = matchingVariant.available ? 'Add to Cart' : 'Sold Out';
+                addToCartBtn.classList.toggle('opacity-50', !matchingVariant.available);
+                addToCartBtn.classList.toggle('cursor-not-allowed', !matchingVariant.available);
+            }
+        }
+    }
+    
+    // Quantity controls
+    if (quantityDecrease) {
+        quantityDecrease.addEventListener('click', function() {
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+    }
+    
+    if (quantityIncrease) {
+        quantityIncrease.addEventListener('click', function() {
+            const currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+        });
+    }
+    
+    // Event listeners for variant selectors
+    variantSelectors.forEach(selector => {
+        selector.addEventListener('change', updateVariant);
+    });
+    
+    // Initialize
+    updateVariant();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Custom Product Main",
+  "class": "custom-product-main",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show Breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_badge",
+      "label": "Show Category Badge on Images",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "max_images",
+      "label": "Maximum Images to Show",
+      "default": 6,
+      "info": "Set the maximum number of product images to display in gallery"
+    },
+    {
+      "type": "header",
+      "content": "Product Information"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Product Description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_compare_price",
+      "label": "Show Compare At Price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_savings_percentage",
+      "label": "Show Savings Percentage",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Product Tabs"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tabs",
+      "label": "Show Product Tabs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "benefits_tab_title",
+      "label": "Benefits Tab Title",
+      "default": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "clinical_tab_title",
+      "label": "Clinical Tab Title",
+      "default": "Clinical References"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_benefits",
+      "label": "Fallback Benefits Text",
+      "default": "Supports cognitive performance\nEnhances joint health and mobility\nProtects against drug-induced organ damage\nAccelerates wound healing\nPromotes ligament repair\nAids in healing stomach ulcers",
+      "info": "This text will show if no benefits metafield is set on the product"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_clinical",
+      "label": "Fallback Clinical References",
+      "default": "• Reference 1: Clinical study (2020)\n• Reference 2: Journal of Joint Health (2019)\n• Reference 3: Neuropharmacology Review (2021)",
+      "info": "This text will show if no clinical references metafield is set on the product"
+    },
+    {
+      "type": "header",
+      "content": "Free Shipping Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_banner",
+      "label": "Show Free Shipping Banner",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Free Shipping Threshold",
+      "default": 175,
+      "info": "Minimum order amount for free shipping"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Shipping Banner Text",
+      "default": "Free Shipping on All Orders $175+"
+    },
+    {
+      "type": "header",
+      "content": "Styling Options"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary Color",
+      "default": "#008cff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#303030"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f8f5ef"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "custom_info",
+      "name": "Custom Information",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "select",
+          "id": "position",
+          "label": "Position",
+          "options": [
+            {
+              "value": "before_tabs",
+              "label": "Before Tabs"
+            },
+            {
+              "value": "after_tabs",
+              "label": "After Tabs"
+            },
+            {
+              "value": "after_price",
+              "label": "After Price"
+            }
+          ],
+          "default": "after_tabs"
+        }
+      ]
+    },
+    {
+      "type": "trust_badge",
+      "name": "Trust Badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Badge Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Badge Text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Badge Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Main"
+    }
+  ]
+}
+{% endschema %}
