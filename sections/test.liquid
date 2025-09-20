@@ -141,10 +141,7 @@
                                     <span class="font-semibold">Browse Files</span>. Drag and drop files here
                                 </p>
                                 <p class="text-xs text-gray-500 mt-1">
-                                    Supported formats: JPG, PNG, SVG | Max. 5 MB | Min. 224px x 224px
-                                </p>
-                                <p class="text-xs text-blue-600 mt-1">
-                                    Image will be embedded in email for better delivery
+                                    Supported formats: JPG, PNG, SVG | Max. 10 MB | Min. 224px x 224px
                                 </p>
                             </div>
                         </label>
@@ -232,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (file) {
             // Validate file
             const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml'];
-            const maxSize = 5 * 1024 * 1024; // 5MB for base64 conversion
+            const maxSize = 10 * 1024 * 1024; // 10MB
             
             if (!validTypes.includes(file.type)) {
                 showFieldError(logoUpload, 'Please select a valid image file (JPG, PNG, SVG)');
@@ -241,53 +238,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (file.size > maxSize) {
-                showFieldError(logoUpload, 'File size must be less than 5MB for email attachment');
+                showFieldError(logoUpload, 'File size must be less than 10MB');
                 logoUpload.value = '';
                 return;
             }
             
-            // Show file name and processing status
-            fileName.textContent = `Selected: ${file.name} - Processing...`;
+            // Show file name
+            fileName.textContent = `Selected: ${file.name}`;
             fileName.classList.remove('hidden');
-            
-            // Convert file to base64 for email inclusion
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const base64Data = event.target.result;
-                
-                // Create a formatted message with the image data
-                let imageMessage = `LOGO FILE INFORMATION:
-Filename: ${file.name}
-File Type: ${file.type}
-File Size: ${Math.round(file.size/1024)}KB
-
-BASE64 IMAGE DATA (Copy this into a base64 decoder to view the image):
-${base64Data}
-
-You can decode this image at: https://base64.guru/converter/decode/image
-Or save the base64 data to a .txt file and use any base64 decoder.`;
-                
-                // Create a hidden input with the complete image message
-                let logoDataInput = form.querySelector('input[name="contact[logo_data]"]');
-                if (!logoDataInput) {
-                    logoDataInput = document.createElement('input');
-                    logoDataInput.type = 'hidden';
-                    logoDataInput.name = 'contact[logo_data]';
-                    form.appendChild(logoDataInput);
-                }
-                logoDataInput.value = imageMessage;
-                
-                fileName.textContent = `Selected: ${file.name} - Ready to submit`;
-                clearFieldError(logoUpload);
-            };
-            
-            reader.onerror = function() {
-                showFieldError(logoUpload, 'Error reading file. Please try again.');
-                logoUpload.value = '';
-                fileName.classList.add('hidden');
-            };
-            
-            reader.readAsDataURL(file);
+            clearFieldError(logoUpload);
         }
     });
 
@@ -430,9 +389,6 @@ Or save the base64 data to a .txt file and use any base64 decoder.`;
         peptideItemCount = 1;
         fileName.classList.add('hidden');
         
-        // Remove logo data input
-        const logoDataInput = form.querySelector('input[name="contact[logo_data]"]');
-        if (logoDataInput) logoDataInput.remove();
         
         // Scroll to success message
         formSuccess.scrollIntoView({ behavior: 'smooth' });
