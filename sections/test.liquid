@@ -29,8 +29,7 @@
                 <iframe name="hidden-iframe" id="hidden-iframe" style="display:none;" onload="handleFormResponse()"></iframe>
                 
                 {% form 'contact', id: 'whitelabel-form', class: 'flex flex-col gap-[34px] items-start flex-1 relative w-full', target: 'hidden-iframe' %}
-                    <!-- Hidden email field required by Shopify -->
-                    <input type="hidden" name="contact[email]" value="whitelabel-request@pathpeptides.com" />
+                    <!-- Hidden form type identifier -->
                     <input type="hidden" name="contact[form_type]" value="whitelabel_request" />
                     
                     <!-- Shopify form status messages -->
@@ -47,6 +46,25 @@
                         </div>
                     {%- endif -%}
                     
+                    <!-- Contact Person Name -->
+                    <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
+                        <label class="text-base leading-[22px]" for="contact-name">
+                            <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">Contact Person Name </span><span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
+                        </label>
+                        <input id="contact-name" name="contact[{{ 'templates.contact.form.name' | t }}]" required class="w-full text-[16px] rounded-[50px] h-13 bg-white px-4 py-2 focus:outline-none focus:ring-2 border border-transparent" placeholder="Enter contact person name" aria-label="contact-name">
+                        <span class="error-message text-red-500 text-sm hidden"></span>
+                    </div>
+                    
+                    <!-- Email Address -->
+                    <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
+                        <label class="text-base leading-[22px]" for="contact-email">
+                            <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">Email Address </span><span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
+                        </label>
+                        <input id="contact-email" name="contact[email]" type="email" required class="w-full text-[16px] rounded-[50px] h-13 bg-white px-4 py-2 focus:outline-none focus:ring-2 border border-transparent" placeholder="Enter your email address" aria-label="contact-email">
+                        <span class="error-message text-red-500 text-sm hidden"></span>
+                    </div>
+                    
+                    <!-- Company Name -->
                     <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
                         <label class="text-base leading-[22px]" for="company-name">
                             <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.company_label | default: 'Company Name' }} </span><span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
@@ -162,6 +180,9 @@
                         <textarea id="special-requests" name="contact[special_requests]" class="w-full text-[16px] rounded-[20px] px-6 py-3 h-20 bg-white focus:outline-none focus:ring-2 border border-transparent" placeholder="Enter your message" aria-label="special-requests"></textarea>
                         <span class="error-message text-red-500 text-sm hidden"></span>
                     </div>
+                    
+                    <!-- Main message body (required by Shopify) -->
+                    <input type="hidden" name="contact[{{ 'templates.contact.form.comment' | t }}]" id="main-message-body" value="" />
                     <button type="submit" id="submit-btn" class="rounded-[50px] uppercase px-6 py-3 flex gap-2 justify-center items-center self-stretch relative w-full h-13 hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" style="background-color: {{ section.settings.accent_color | default: '#008cff' }};">
                         <span class="text-white text-base font-[700]" id="submit-text">{{ section.settings.submit_button_text | default: 'Submit' }}</span>
                         <div id="loading-spinner" class="hidden w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -422,6 +443,62 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = true;
         submitText.classList.add('hidden');
         loadingSpinner.classList.remove('hidden');
+        
+        // Populate the main message body with form summary for Shopify
+        const mainMessageBody = document.getElementById('main-message-body');
+        if (mainMessageBody) {
+            let messageContent = 'WHITE LABEL REQUEST\n\n';
+            
+            // Add company info
+            const companyName = form.querySelector('[name="contact[company_name]"]').value;
+            const contactName = form.querySelector('[name*="name"]').value;
+            const email = form.querySelector('[name="contact[email]"]').value;
+            
+            messageContent += `Company: ${companyName}\n`;
+            messageContent += `Contact Person: ${contactName}\n`;
+            messageContent += `Email: ${email}\n\n`;
+            
+            // Add peptide items
+            messageContent += 'PEPTIDE REQUESTS:\n';
+            const peptideItems = form.querySelectorAll('.peptide-name');
+            peptideItems.forEach((peptideInput, index) => {
+                const dosageInput = form.querySelector(`[name="contact[dosage_${index}]"]`);
+                if (peptideInput.value.trim() && dosageInput && dosageInput.value.trim()) {
+                    messageContent += `- ${peptideInput.value.trim()}: ${dosageInput.value.trim()}\n`;
+                }
+            });
+            
+            // Add vial size
+            const vialSize = form.querySelector('input[name="contact[vial_size]"]:checked');
+            if (vialSize) {
+                messageContent += `\nVial Size: ${vialSize.value}\n`;
+            }
+            
+            // Add label requirements
+            const labelReqs = form.querySelector('[name="contact[label_requirements]"]').value;
+            if (labelReqs.trim()) {
+                messageContent += `\nLabel Requirements: ${labelReqs.trim()}\n`;
+            }
+            
+            // Add special requests
+            const specialReqs = form.querySelector('[name="contact[special_requests]"]').value;
+            if (specialReqs.trim()) {
+                messageContent += `\nSpecial Requests: ${specialReqs.trim()}\n`;
+            }
+            
+            // Add logo info
+            const logoInfo = form.querySelector('[name="contact[logo_info]"]');
+            if (logoInfo && logoInfo.value) {
+                try {
+                    const fileInfo = JSON.parse(logoInfo.value);
+                    messageContent += `\nLogo File: ${fileInfo.name} (${fileInfo.type}, ${Math.round(fileInfo.size/1024)}KB)\n`;
+                } catch (e) {
+                    messageContent += `\nLogo File: Uploaded\n`;
+                }
+            }
+            
+            mainMessageBody.value = messageContent;
+        }
         
         // Let the form submit naturally to the hidden iframe
         // The handleFormResponse function will be called when the iframe loads
