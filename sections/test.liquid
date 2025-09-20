@@ -1,0 +1,605 @@
+<section class="px-0 py-12 sm:py-0" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+    <div class="px-0 sm:px-[82px] sm:py-[120px] flex flex-col gap-0 justify-center items-center relative max-w-[1440px] relative container">
+        <div class="rounded-3xl flex gap-5 items-start self-stretch relative w-full  bg-white">
+            <div class="rounded-[14px] py-[54px] px-[20px] sm:p-[54px] flex flex-col lg:flex-row items-center lg:items-start gap-[88px] sm:gap-[20px] md:gap-[20px] lg:gap-[88px] items-start flex-1 relative w-full" style="background-color: {{ section.settings.background_color | default: '#f8f8f8' }}; color: {{ section.settings.text_color | default: '#0c0c0c' }};">
+                <div class="flex  flex-col gap-6 items-start relative w-[354px]">
+                    <h1 class="text-4xl leading-[43px]" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">
+                        <span class="text-4xl font-normal">
+                            {{ section.settings.section_title | default: 'White Label Request' | replace: ' ', '<br>' }}
+                            {% if section.settings.section_subtitle != blank %}
+                                <br><span class="text-lg">{{ section.settings.section_subtitle }}</span>
+                            {% endif %}
+                        </span>
+                    </h1>
+                    <div class="w-[354px]">
+                        {% if section.settings.banner_image_desktop %}
+                            <img src="{{ section.settings.banner_image_desktop | image_url: width: 354 }}" class="max-w-[100%] hidden lg:block mt-20" alt="{{ section.settings.section_title }}" />
+                        {% else %}
+                            <img src="assets/img/white-label-banner.webp" class="max-w-[100%] hidden lg:block mt-20" />
+                        {% endif %}
+                        
+                        {% if section.settings.banner_image_mobile %}
+                            <img src="{{ section.settings.banner_image_mobile | image_url: width: 354 }}" class="max-w-[100%] block lg:hidden" alt="{{ section.settings.section_title }}" />
+                        {% else %}
+                            <img src="assets/img/white-label-banner-mobile.webp" class="max-w-[100%] block lg:hidden" />
+                        {% endif %}
+                    </div>
+                </div>
+                {% form 'contact', id: 'whitelabel-form', class: 'flex flex-col gap-[34px] items-start flex-1 relative w-full', novalidate: true %}
+                    <!-- Hidden email field required by Shopify -->
+                    <input type="hidden" name="contact[email]" value="whitelabel-request@pathpeptides.com" />
+                    <input type="hidden" name="contact[form_type]" value="whitelabel_request" />
+                    
+                    <!-- Shopify form status messages -->
+                    {%- if form.posted_successfully? -%}
+                        <div id="form-success" class="p-4 rounded-lg text-center bg-green-100 text-green-800">
+                            {{ section.settings.success_message | default: 'Thank you! Your white label request has been submitted successfully. We will contact you soon.' }}
+                        </div>
+                    {%- elsif form.errors -%}
+                        <div id="form-error" class="p-4 rounded-lg text-center bg-red-100 text-red-800">
+                            {{ section.settings.error_message | default: 'Sorry, there was an error submitting your request. Please try again.' }}
+                            {% for error in form.errors %}
+                                <br><small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {%- endif -%}
+                    
+                    <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
+                        <label class="text-base leading-[22px]" for="company-name">
+                            <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.company_label | default: 'Company Name' }} </span><span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
+                        </label>
+                        <input id="company-name" name="contact[company_name]" required class="w-full text-[16px] rounded-[50px] h-13 bg-white px-4 py-2 focus:outline-none focus:ring-2 border border-transparent" style="focus:ring-color: {{ section.settings.accent_color | default: '#008cff' }};" placeholder="Enter Your Company name" aria-label="company-name">
+                        <span class="error-message text-red-500 text-sm hidden"></span>
+                    </div>
+                    <div class="flex flex-col gap-2 items-start self-stretch relative w-full" id="peptide-items-container">
+                        <div class="peptide-item flex flex-col sm:flex-row gap-2 items-start self-stretch relative w-full" data-item="0">
+                            <div class="flex flex-col gap-2 relative w-full">
+                                <label class="text-base leading-[22px]">
+                                    <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.peptide_label | default: 'Input Desired Peptide and MG' }} </span>
+                                    <span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
+                                </label>
+                                <input name="contact[peptide_name_0]" required class="peptide-name w-full text-[16px] rounded-[50px] h-13 bg-white px-4 py-2 focus:outline-none focus:ring-2 border border-transparent" placeholder="Input Peptide Name">
+                                <span class="error-message text-red-500 text-sm hidden"></span>
+                            </div>
+                            <div class="flex flex-col gap-2 relative w-[100%] sm:w-[50%]">
+                                <label class="text-base leading-[22px]">
+                                    <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.dosage_label | default: 'Desired Dosage:' }}</span>
+                                    <span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
+                                </label>
+                                <input name="contact[dosage_0]" required class="dosage w-full text-[16px] rounded-[50px] h-13 bg-white px-4 py-2 focus:outline-none focus:ring-2 border border-transparent" placeholder="Enter dosage, MG">
+                                <span class="error-message text-red-500 text-sm hidden"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add Button -->
+                    <button type="button" id="addBtn" class="flex flex-row gap-2 items-center mt-0 rounded-[50px] mt-[-20px] px-6 py-4 bg-white hover:bg-gray-50 transition-colors" style="color: {{ section.settings.accent_color | default: '#008cff' }};">
+                        <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.06 0.543999H9.088V6.706H15.198V8.734H9.088V15H7.06V8.734H0.95V6.706H7.06V0.543999Z" fill="{{ section.settings.accent_color | default: '#008cff' }}" />
+                        </svg>
+                        {{ section.settings.add_item_text | default: 'Line Item' }}
+                    </button>
+                    <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
+                        <label class="text-base leading-[22px]">
+                            <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.vial_size_label | default: 'Size of Vial' }} </span><span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
+                        </label>
+                        <div class="flex items-center gap-6">
+                            <!-- Vial Size 1 -->
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="contact[vial_size]" value="{{ section.settings.vial_size_1_value | default: '3ml' }}" required class="peer hidden" />
+                                <span class="w-5 h-5 rounded-full border bg-transparent flex items-center justify-center transition-colors duration-200 peer-checked:bg-black peer-checked:[&>svg]:opacity-100" style="border-color: {{ section.settings.text_color | default: '#303030' }};">
+                                    <!-- White Tick -->
+                                    <svg class="w-3 h-3 text-white opacity-0 transition-opacity duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <span class="text-[16px] font-medium" style="color: {{ section.settings.text_color | default: '#303030' }};">{{ section.settings.vial_size_1 | default: '3 ML' }}</span>
+                            </label>
+                            <!-- Vial Size 2 -->
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="contact[vial_size]" value="{{ section.settings.vial_size_2_value | default: '5ml' }}" required class="peer hidden" />
+                                <span class="w-5 h-5 rounded-full border bg-transparent flex items-center justify-center transition-colors duration-200 peer-checked:bg-black peer-checked:[&>svg]:opacity-100" style="border-color: {{ section.settings.text_color | default: '#303030' }};">
+                                    <svg class="w-3 h-3 text-white opacity-0 transition-opacity duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <span class="text-[16px] font-medium" style="color: {{ section.settings.text_color | default: '#303030' }};">{{ section.settings.vial_size_2 | default: '5 ML' }}</span>
+                            </label>
+                            <!-- Vial Size 3 -->
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="contact[vial_size]" value="{{ section.settings.vial_size_3_value | default: '10ml' }}" required class="peer hidden" />
+                                <span class="w-5 h-5 rounded-full border bg-transparent flex items-center justify-center transition-colors duration-200 peer-checked:bg-black peer-checked:[&>svg]:opacity-100" style="border-color: {{ section.settings.text_color | default: '#303030' }};">
+                                    <svg class="w-3 h-3 text-white opacity-0 transition-opacity duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
+                                <span class="text-[16px] font-medium" style="color: {{ section.settings.text_color | default: '#303030' }};">{{ section.settings.vial_size_3 | default: '10 ML' }}</span>
+                            </label>
+                        </div>
+                        <span class="error-message text-red-500 text-sm hidden"></span>
+                    </div>
+                    <!-- size of vials -->
+                    <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
+                        <label class="text-base leading-[22px]" for="label-requirements">
+                            <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.label_requirements_label | default: 'Custom Label Text Requirements (e.g., Claims, Disclaimers)' }}</span>
+                        </label>
+                        <textarea id="label-requirements" name="contact[label_requirements]" class="w-full text-[16px] rounded-[20px] px-6 py-3 h-20 bg-white focus:outline-none focus:ring-2 border border-transparent" placeholder="Enter your message" aria-label="label-requirements"></textarea>
+                        <span class="error-message text-red-500 text-sm hidden"></span>
+                    </div>
+                    <div class="flex flex-col gap-2 w-full">
+                        <label class="text-base leading-[22px]">
+                            <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.logo_upload_label | default: 'Please upload your logo' }}</span>
+                        </label>
+                        <!-- Make whole box a label -->
+                        <label for="logo-upload" class="flex flex-row justify-start items-start gap-2 w-full border-2 border-dashed border-[#d6cfc3] bg-[#f5f0e7] rounded-lg p-6 cursor-pointer hover:bg-[#f0ebe3] transition">
+                            <input type="file" name="contact[logo]" class="hidden" id="logo-upload" accept=".jpg,.jpeg,.png,.svg" />
+                            <!-- Cloud Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-[#9b9489] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6h.1a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <div>
+                                <p class="text-sm text-gray-700">
+                                    <span class="font-semibold">Browse Files</span>. Drag and drop files here
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Supported formats: JPG, PNG, SVG | Max. 60 MB | Min. 224px x 224px
+                                </p>
+                            </div>
+                        </label>
+                        <div id="file-name" class="text-sm text-gray-600 hidden"></div>
+                        <span class="error-message text-red-500 text-sm hidden"></span>
+                    </div>
+                    <!-- file upload -->
+                    <div class="flex flex-col gap-2 items-start self-stretch relative w-full">
+                        <label class="text-base leading-[22px]" for="special-requests">
+                            <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.special_requests_label | default: 'Any Other Special Requests?' }}</span>
+                        </label>
+                        <textarea id="special-requests" name="contact[special_requests]" class="w-full text-[16px] rounded-[20px] px-6 py-3 h-20 bg-white focus:outline-none focus:ring-2 border border-transparent" placeholder="Enter your message" aria-label="special-requests"></textarea>
+                        <span class="error-message text-red-500 text-sm hidden"></span>
+                    </div>
+                    <button type="submit" id="submit-btn" class="rounded-[50px] uppercase px-6 py-3 flex gap-2 justify-center items-center self-stretch relative w-full h-13 hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" style="background-color: {{ section.settings.accent_color | default: '#008cff' }};">
+                        <span class="text-white text-base font-[700]" id="submit-text">{{ section.settings.submit_button_text | default: 'Submit' }}</span>
+                        <div id="loading-spinner" class="hidden w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </button>
+                    <div id="form-message" class="hidden p-4 rounded-lg text-center"></div>
+                {% endform %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let peptideItemCount = 1;
+    const form = document.getElementById('whitelabel-form');
+    const addBtn = document.getElementById('addBtn');
+    const peptideContainer = document.getElementById('peptide-items-container');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitText = document.getElementById('submit-text');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const formMessage = document.getElementById('form-message');
+    const logoUpload = document.getElementById('logo-upload');
+    const fileName = document.getElementById('file-name');
+
+    // Add new peptide line item
+    addBtn.addEventListener('click', function() {
+        const newItem = document.createElement('div');
+        newItem.className = 'peptide-item flex flex-col sm:flex-row gap-2 items-start self-stretch relative w-full';
+        newItem.setAttribute('data-item', peptideItemCount);
+        
+        newItem.innerHTML = `
+            <div class="flex flex-col gap-2 relative w-full">
+                <label class="text-base leading-[22px] sm:hidden">
+                    <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.peptide_label | default: 'Input Desired Peptide and MG' }} </span>
+                    <span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
+                </label>
+                <input name="contact[peptide_name_${peptideItemCount}]" required class="peptide-name w-full text-[16px] rounded-[50px] h-13 bg-white px-4 py-2 focus:outline-none focus:ring-2 border border-transparent" placeholder="Input Peptide Name">
+                <span class="error-message text-red-500 text-sm hidden"></span>
+            </div>
+            <div class="flex flex-col gap-2 relative w-[100%] sm:w-[50%]">
+                <label class="text-base leading-[22px] sm:hidden">
+                    <span class="text-base font-normal" style="color: {{ section.settings.text_color | default: '#0c0c0c' }};">{{ section.settings.dosage_label | default: 'Desired Dosage:' }}</span>
+                    <span class="text-base font-normal" style="color: {{ section.settings.accent_color | default: '#008cff' }};">*</span>
+                </label>
+                <div class="flex gap-2">
+                    <input name="contact[dosage_${peptideItemCount}]" required class="dosage w-full text-[16px] rounded-[50px] h-13 bg-white px-4 py-2 focus:outline-none focus:ring-2 border border-transparent" placeholder="Enter dosage, MG">
+                    <button type="button" class="remove-item flex-shrink-0 w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors" title="Remove item">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L11 11M1 11L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <span class="error-message text-red-500 text-sm hidden"></span>
+            </div>
+        `;
+        
+        peptideContainer.appendChild(newItem);
+        peptideItemCount++;
+        
+        // Add remove functionality
+        const removeBtn = newItem.querySelector('.remove-item');
+        removeBtn.addEventListener('click', function() {
+            newItem.remove();
+        });
+    });
+
+    // File upload handling
+    logoUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml'];
+            const maxSize = 60 * 1024 * 1024; // 60MB
+            
+            if (!validTypes.includes(file.type)) {
+                showFieldError(logoUpload, 'Please select a valid image file (JPG, PNG, SVG)');
+                logoUpload.value = '';
+                return;
+            }
+            
+            if (file.size > maxSize) {
+                showFieldError(logoUpload, 'File size must be less than 60MB');
+                logoUpload.value = '';
+                return;
+            }
+            
+            // Show file name
+            fileName.textContent = `Selected: ${file.name}`;
+            fileName.classList.remove('hidden');
+            clearFieldError(logoUpload);
+        }
+    });
+
+    // Form validation
+    function validateField(field) {
+        const value = field.value.trim();
+        let isValid = true;
+        
+        if (field.hasAttribute('required') && !value) {
+            showFieldError(field, 'This field is required');
+            isValid = false;
+        } else if (field.name === 'company_name' && value.length < 2) {
+            showFieldError(field, 'Company name must be at least 2 characters');
+            isValid = false;
+        } else if (field.classList.contains('peptide-name') && value.length < 2) {
+            showFieldError(field, 'Peptide name must be at least 2 characters');
+            isValid = false;
+        } else if (field.classList.contains('dosage') && value && !/^\d+(\.\d+)?\s*(mg|MG|Mg)?\s*$/i.test(value)) {
+            showFieldError(field, 'Please enter a valid dosage (e.g., 10mg, 5.5MG)');
+            isValid = false;
+        } else {
+            clearFieldError(field);
+        }
+        
+        return isValid;
+    }
+
+    function validateRadioGroup(name) {
+        const radios = document.querySelectorAll(`input[name="${name}"]`);
+        const isChecked = Array.from(radios).some(radio => radio.checked);
+        
+        if (!isChecked) {
+            const errorSpan = radios[0].closest('.flex.flex-col').querySelector('.error-message');
+            showError(errorSpan, 'Please select a vial size');
+            return false;
+        } else {
+            const errorSpan = radios[0].closest('.flex.flex-col').querySelector('.error-message');
+            clearError(errorSpan);
+            return true;
+        }
+    }
+
+    function showFieldError(field, message) {
+        field.classList.add('border-red-500');
+        field.classList.remove('border-transparent');
+        const errorSpan = field.parentNode.querySelector('.error-message') || 
+                         field.closest('.flex').parentNode.querySelector('.error-message');
+        if (errorSpan) {
+            showError(errorSpan, message);
+        }
+    }
+
+    function clearFieldError(field) {
+        field.classList.remove('border-red-500');
+        field.classList.add('border-transparent');
+        const errorSpan = field.parentNode.querySelector('.error-message') || 
+                         field.closest('.flex').parentNode.querySelector('.error-message');
+        if (errorSpan) {
+            clearError(errorSpan);
+        }
+    }
+
+    function showError(errorSpan, message) {
+        errorSpan.textContent = message;
+        errorSpan.classList.remove('hidden');
+    }
+
+    function clearError(errorSpan) {
+        errorSpan.textContent = '';
+        errorSpan.classList.add('hidden');
+    }
+
+    // Real-time validation
+    form.addEventListener('input', function(e) {
+        if (e.target.matches('input[required], textarea')) {
+            validateField(e.target);
+        }
+    });
+
+    form.addEventListener('change', function(e) {
+        if (e.target.matches('input[type="radio"]')) {
+            validateRadioGroup(e.target.name);
+        }
+    });
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        // Clear previous messages
+        formMessage.classList.add('hidden');
+        
+        // Validate all fields
+        let isValid = true;
+        
+        // Validate required text inputs (skip hidden fields)
+        const requiredFields = form.querySelectorAll('input[required]:not([type="hidden"]), textarea[required]');
+        requiredFields.forEach(field => {
+            if (!validateField(field)) {
+                isValid = false;
+            }
+        });
+        
+        // Validate radio groups
+        if (!validateRadioGroup('contact[vial_size]')) {
+            isValid = false;
+        }
+        
+        // Check if at least one peptide item is filled
+        const peptideNames = form.querySelectorAll('.peptide-name');
+        const hasValidPeptide = Array.from(peptideNames).some(input => input.value.trim().length >= 2);
+        
+        if (!hasValidPeptide) {
+            peptideNames[0].focus();
+            showFieldError(peptideNames[0], 'At least one peptide name is required');
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+            showMessage('Please fix the errors above and try again.', 'error');
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.classList.add('hidden');
+        loadingSpinner.classList.remove('hidden');
+        
+        // Let Shopify handle the form submission naturally
+        // The form will submit to the contact endpoint automatically
+    });
+
+    function showMessage(message, type) {
+        formMessage.textContent = message;
+        formMessage.className = `p-4 rounded-lg text-center ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+        formMessage.classList.remove('hidden');
+        formMessage.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Handle successful form submission
+    const formSuccess = document.getElementById('form-success');
+    if (formSuccess) {
+        // Reset form and remove extra peptide items on successful submission
+        const extraItems = peptideContainer.querySelectorAll('.peptide-item:not(:first-child)');
+        extraItems.forEach(item => item.remove());
+        peptideItemCount = 1;
+        fileName.classList.add('hidden');
+        
+        // Scroll to success message
+        formSuccess.scrollIntoView({ behavior: 'smooth' });
+    }
+});
+</script>
+
+{% schema %}
+{
+  "name": "White Label Request",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "White Label Request"
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Section Subtitle"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_desktop",
+      "label": "Banner Image (Desktop)",
+      "info": "Recommended size: 354px width"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_mobile",
+      "label": "Banner Image (Mobile)",
+      "info": "Recommended size: 354px width"
+    },
+    {
+      "type": "header",
+      "content": "Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "company_label",
+      "label": "Company Name Label",
+      "default": "Company Name"
+    },
+    {
+      "type": "text",
+      "id": "peptide_label",
+      "label": "Peptide Name Label",
+      "default": "Input Desired Peptide and MG"
+    },
+    {
+      "type": "text",
+      "id": "dosage_label",
+      "label": "Dosage Label",
+      "default": "Desired Dosage:"
+    },
+    {
+      "type": "text",
+      "id": "vial_size_label",
+      "label": "Vial Size Label",
+      "default": "Size of Vial"
+    },
+    {
+      "type": "text",
+      "id": "label_requirements_label",
+      "label": "Label Requirements Field Label",
+      "default": "Custom Label Text Requirements (e.g., Claims, Disclaimers)"
+    },
+    {
+      "type": "text",
+      "id": "logo_upload_label",
+      "label": "Logo Upload Label",
+      "default": "Please upload your logo"
+    },
+    {
+      "type": "text",
+      "id": "special_requests_label",
+      "label": "Special Requests Label",
+      "default": "Any Other Special Requests?"
+    },
+    {
+      "type": "text",
+      "id": "submit_button_text",
+      "label": "Submit Button Text",
+      "default": "Submit"
+    },
+    {
+      "type": "text",
+      "id": "add_item_text",
+      "label": "Add Item Button Text",
+      "default": "Line Item"
+    },
+    {
+      "type": "header",
+      "content": "Vial Size Options"
+    },
+    {
+      "type": "text",
+      "id": "vial_size_1",
+      "label": "Vial Size Option 1",
+      "default": "3 ML"
+    },
+    {
+      "type": "text",
+      "id": "vial_size_1_value",
+      "label": "Vial Size Option 1 Value",
+      "default": "3ml"
+    },
+    {
+      "type": "text",
+      "id": "vial_size_2",
+      "label": "Vial Size Option 2",
+      "default": "5 ML"
+    },
+    {
+      "type": "text",
+      "id": "vial_size_2_value",
+      "label": "Vial Size Option 2 Value",
+      "default": "5ml"
+    },
+    {
+      "type": "text",
+      "id": "vial_size_3",
+      "label": "Vial Size Option 3",
+      "default": "10 ML"
+    },
+    {
+      "type": "text",
+      "id": "vial_size_3_value",
+      "label": "Vial Size Option 3 Value",
+      "default": "10ml"
+    },
+    {
+      "type": "header",
+      "content": "Messages"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "Thank you! Your white label request has been submitted successfully. We will contact you soon."
+    },
+    {
+      "type": "text",
+      "id": "error_message",
+      "label": "Error Message",
+      "default": "Sorry, there was an error submitting your request. Please try again."
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#0c0c0c"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#008cff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "White Label Request"
+    }
+  ]
+}
+{% endschema %}
