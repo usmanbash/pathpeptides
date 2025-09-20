@@ -22,6 +22,7 @@
       "settings": {
         "section_title": "White Label Request",
         "section_subtitle": "",
+        "banner_image_desktop": "shopify://shop_images/soap-image-4_7dcb40d3-3b25-4e39-8765-5cf50cd6759c.png",
         "company_label": "Company Name",
         "peptide_label": "Input Desired Peptide and MG",
         "dosage_label": "Desired Dosage:",
