@@ -25,10 +25,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <!-- Hidden iframe for form submission -->
-                <iframe name="hidden-iframe" id="hidden-iframe" style="display:none;" onload="handleFormResponse()"></iframe>
-                
-                {% form 'contact', id: 'whitelabel-form', class: 'flex flex-col gap-[34px] items-start flex-1 relative w-full', target: 'hidden-iframe' %}
+                {% form 'contact', id: 'whitelabel-form', class: 'flex flex-col gap-[34px] items-start flex-1 relative w-full' %}
                     <!-- Hidden email field required by Shopify -->
                     <input type="hidden" name="contact[email]" value="whitelabel-request@pathpeptides.com" />
                     <input type="hidden" name="contact[form_type]" value="whitelabel_request" />
@@ -376,9 +373,6 @@ Or save the base64 data to a .txt file and use any base64 decoder.`;
         }
     });
 
-    // Global variable to track form submission
-    window.formSubmissionInProgress = false;
-
     // Form submission
     form.addEventListener('submit', function(e) {
         // Clear previous messages
@@ -416,14 +410,8 @@ Or save the base64 data to a .txt file and use any base64 decoder.`;
             return;
         }
         
-        // Show loading state
-        window.formSubmissionInProgress = true;
-        submitBtn.disabled = true;
-        submitText.classList.add('hidden');
-        loadingSpinner.classList.remove('hidden');
-        
-        // Let the form submit naturally to the hidden iframe
-        // The handleFormResponse function will be called when the iframe loads
+        // Let Shopify handle the form submission naturally
+        // Form will redirect to thank you page or show Shopify's success/error messages
     });
 
     function showMessage(message, type) {
@@ -450,53 +438,6 @@ Or save the base64 data to a .txt file and use any base64 decoder.`;
         formSuccess.scrollIntoView({ behavior: 'smooth' });
     }
 });
-
-// Global function to handle iframe response
-function handleFormResponse() {
-    // Only process if we have a form submission in progress
-    if (window.formSubmissionInProgress) {
-        window.formSubmissionInProgress = false;
-        
-        const form = document.getElementById('whitelabel-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const submitText = document.getElementById('submit-text');
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const fileName = document.getElementById('file-name');
-        const peptideContainer = document.getElementById('peptide-items-container');
-        
-        // Reset loading state
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitText.classList.remove('hidden');
-            loadingSpinner.classList.add('hidden');
-        }
-        
-        // Show success message
-        const formMessage = document.getElementById('form-message');
-        if (formMessage) {
-            formMessage.textContent = '{{ section.settings.success_message | default: "Thank you! Your white label request has been submitted successfully. We will contact you soon." }}';
-            formMessage.className = 'p-4 rounded-lg text-center bg-green-100 text-green-800';
-            formMessage.classList.remove('hidden');
-            formMessage.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Reset form
-        if (form) {
-            form.reset();
-            if (fileName) fileName.classList.add('hidden');
-            
-            // Remove extra peptide items
-            if (peptideContainer) {
-                const extraItems = peptideContainer.querySelectorAll('.peptide-item:not(:first-child)');
-                extraItems.forEach(item => item.remove());
-            }
-            
-            // Remove logo data input
-            const logoDataInput = form.querySelector('input[name="contact[logo_data]"]');
-            if (logoDataInput) logoDataInput.remove();
-        }
-    }
-}
 </script>
 
 {% schema %}
