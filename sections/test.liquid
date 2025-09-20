@@ -25,7 +25,7 @@
                         {% endif %}
                     </div>
                 </div>
-                {% form 'contact', id: 'whitelabel-form', class: 'flex flex-col gap-[34px] items-start flex-1 relative w-full', novalidate: true %}
+                <form id="whitelabel-form" action="/contact" method="POST" class="flex flex-col gap-[34px] items-start flex-1 relative w-full" novalidate enctype="multipart/form-data">
                     <!-- Hidden email field required by Shopify -->
                     <input type="hidden" name="contact[email]" value="whitelabel-request@pathpeptides.com" />
                     <input type="hidden" name="contact[form_type]" value="whitelabel_request" />
@@ -164,7 +164,7 @@
                         <div id="loading-spinner" class="hidden w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     </button>
                     <div id="form-message" class="hidden p-4 rounded-lg text-center"></div>
-                {% endform %}
+                </form>
             </div>
         </div>
     </div>
@@ -375,7 +375,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Form submission
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Always prevent default to avoid redirect
+        
         // Clear previous messages
         formMessage.classList.add('hidden');
         
@@ -406,7 +408,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (!isValid) {
-            e.preventDefault();
             showMessage('Please fix the errors above and try again.', 'error');
             return;
         }
@@ -416,8 +417,63 @@ document.addEventListener('DOMContentLoaded', function() {
         submitText.classList.add('hidden');
         loadingSpinner.classList.remove('hidden');
         
-        // Let Shopify handle the form submission naturally
-        // The form will submit to the contact endpoint automatically
+        try {
+            // Create FormData from the form
+            const formData = new FormData(form);
+            
+            // Submit via AJAX to prevent redirect
+            const response = await fetch('/contact', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            
+            // Check if response is ok or if it's a redirect (which Shopify sometimes does)
+            if (response.ok || response.status === 302 || response.redirected) {
+                // Success - either OK response or redirect (which means form was processed)
+                showMessage('{{ section.settings.success_message | default: "Thank you! Your white label request has been submitted successfully. We will contact you soon." }}', 'success');
+                
+                // Reset form
+                form.reset();
+                fileName.classList.add('hidden');
+                
+                // Remove extra peptide items
+                const extraItems = peptideContainer.querySelectorAll('.peptide-item:not(:first-child)');
+                extraItems.forEach(item => item.remove());
+                peptideItemCount = 1;
+                
+                // Remove base64 inputs
+                const base64Input = form.querySelector('input[name="contact[logo_base64]"]');
+                const fileInfoInput = form.querySelector('input[name="contact[logo_info]"]');
+                if (base64Input) base64Input.remove();
+                if (fileInfoInput) fileInfoInput.remove();
+                
+            } else {
+                // Try to get error message from response
+                let errorMessage = '{{ section.settings.error_message | default: "Sorry, there was an error submitting your request. Please try again." }}';
+                try {
+                    const responseText = await response.text();
+                    if (responseText.includes('error') || responseText.includes('invalid')) {
+                        errorMessage += ' Please check your information and try again.';
+                    }
+                } catch (e) {
+                    // Ignore parsing errors
+                }
+                throw new Error(errorMessage);
+            }
+            
+        } catch (error) {
+            console.error('Form submission error:', error);
+            showMessage(error.message || '{{ section.settings.error_message | default: "Sorry, there was an error submitting your request. Please try again." }}', 'error');
+        } finally {
+            // Reset loading state
+            submitBtn.disabled = false;
+            submitText.classList.remove('hidden');
+            loadingSpinner.classList.add('hidden');
+        }
     });
 
     function showMessage(message, type) {
