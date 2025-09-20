@@ -141,7 +141,10 @@
                                     <span class="font-semibold">Browse Files</span>. Drag and drop files here
                                 </p>
                                 <p class="text-xs text-gray-500 mt-1">
-                                    Supported formats: JPG, PNG, SVG | Max. 60 MB | Min. 224px x 224px
+                                    Supported formats: JPG, PNG, SVG | Max. 5 MB | Min. 224px x 224px
+                                </p>
+                                <p class="text-xs text-blue-600 mt-1">
+                                    Image will be embedded in email for better delivery
                                 </p>
                             </div>
                         </label>
@@ -228,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (file) {
             // Validate file
             const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml'];
-            const maxSize = 60 * 1024 * 1024; // 60MB
+            const maxSize = 5 * 1024 * 1024; // 5MB for base64 conversion
             
             if (!validTypes.includes(file.type)) {
                 showFieldError(logoUpload, 'Please select a valid image file (JPG, PNG, SVG)');
@@ -237,15 +240,55 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (file.size > maxSize) {
-                showFieldError(logoUpload, 'File size must be less than 60MB');
+                showFieldError(logoUpload, 'File size must be less than 5MB for email attachment');
                 logoUpload.value = '';
                 return;
             }
             
-            // Show file name
-            fileName.textContent = `Selected: ${file.name}`;
+            // Show file name and processing status
+            fileName.textContent = `Selected: ${file.name} - Processing...`;
             fileName.classList.remove('hidden');
-            clearFieldError(logoUpload);
+            
+            // Convert file to base64 for email inclusion
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64Data = event.target.result;
+                
+                // Create a hidden input with base64 data
+                let base64Input = form.querySelector('input[name="contact[logo_base64]"]');
+                if (!base64Input) {
+                    base64Input = document.createElement('input');
+                    base64Input.type = 'hidden';
+                    base64Input.name = 'contact[logo_base64]';
+                    form.appendChild(base64Input);
+                }
+                base64Input.value = base64Data;
+                
+                // Create another hidden input with file info
+                let fileInfoInput = form.querySelector('input[name="contact[logo_info]"]');
+                if (!fileInfoInput) {
+                    fileInfoInput = document.createElement('input');
+                    fileInfoInput.type = 'hidden';
+                    fileInfoInput.name = 'contact[logo_info]';
+                    form.appendChild(fileInfoInput);
+                }
+                fileInfoInput.value = JSON.stringify({
+                    name: file.name,
+                    type: file.type,
+                    size: file.size
+                });
+                
+                fileName.textContent = `Selected: ${file.name} - Ready to submit`;
+                clearFieldError(logoUpload);
+            };
+            
+            reader.onerror = function() {
+                showFieldError(logoUpload, 'Error reading file. Please try again.');
+                logoUpload.value = '';
+                fileName.classList.add('hidden');
+            };
+            
+            reader.readAsDataURL(file);
         }
     });
 
@@ -392,6 +435,12 @@ document.addEventListener('DOMContentLoaded', function() {
         extraItems.forEach(item => item.remove());
         peptideItemCount = 1;
         fileName.classList.add('hidden');
+        
+        // Remove base64 inputs
+        const base64Input = form.querySelector('input[name="contact[logo_base64]"]');
+        const fileInfoInput = form.querySelector('input[name="contact[logo_info]"]');
+        if (base64Input) base64Input.remove();
+        if (fileInfoInput) fileInfoInput.remove();
         
         // Scroll to success message
         formSuccess.scrollIntoView({ behavior: 'smooth' });
